@@ -2,7 +2,7 @@
 import { FC, useState } from 'react';
 // import Option from './OptionList';
 import OptionList from './OptionList';
-import { IOption } from '@/widgets/CategoriesModal/CategoriesModal';
+import { IOption } from '@/widgets/CategoriesModal/api/useCategoriese';
 
 interface IOptionsProps {
 	options: IOption[];
@@ -20,9 +20,6 @@ interface IOptionsProps {
 // };
 
 const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
-	// const [path, setPath] = useState<number[]>([0]);
-	// const maxDepth = getMaxDepth(options);
-
 	const selectOption = (listInd: number, ind: number) => {
 		if (path.length - 1 > listInd && path[listInd + 1] === ind) {
 			onChange(path.slice(0, listInd + 1));

@@ -5,6 +5,7 @@ import Search from '@/components/Search/Search';
 import Arrow from '@/assets/images/arrow.svg';
 import { IOption, useCategories } from './api/useCategoriese';
 import Button from '@/components/Button/Button';
+import { useCategoriesStore } from '@/store/store';
 
 interface ICategoriesModalProps {
 	show: boolean;
@@ -14,8 +15,7 @@ interface ICategoriesModalProps {
 
 const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose }) => {
 	const [searchValue, setSearchValue] = useState<string>('');
-	const [selectedPath, setSelectedPath] = useState<number[]>([0]);
-	const options = useCategories();
+	const { categories: options, loadCategories } = useCategories();
 
 	const filterOptions = (items: IOption[], searchValue: string) => {
 		const paths: number[][] = [];
@@ -42,6 +42,8 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 	);
 	console.log(filteredPaths);
 
+	const { currentCategory, setCurrentCategory, selectedPath, setSelectedPath } = useCategoriesStore();
+
 	useEffect(() => {
 		if (filteredPaths.length) {
 			setSelectedPath(filteredPaths[0]);
@@ -52,6 +54,22 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 		const newIndex =
 			(filteredPaths.indexOf(selectedPath) + dx + filteredPaths.length) % filteredPaths.length;
 		setSelectedPath(filteredPaths[newIndex]);
+	};
+
+	const updateSelectedPath = (newPath: number[]) => {
+		setSelectedPath(newPath);
+		let option: IOption | undefined = undefined;
+		for (const pathEl of newPath.slice(1)) {
+			if (option) {
+				option = option.children?.[pathEl];
+			} else {
+				option = options[pathEl];
+			}
+		}
+		console.log(option);
+		if (option) {
+			setCurrentCategory(option);
+		}
 	};
 
 	return (
@@ -83,9 +101,12 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 					<Options
 						options={typeof options === 'undefined' ? [] : options}
 						path={selectedPath}
-						onChange={(newPath) => setSelectedPath(newPath)}
+						onChange={updateSelectedPath}
 					/>
-					<Button text='Показать выбранные категории' className='absolute bottom-[20px] right-[20px]' />
+					<Button
+						text='Показать выбранные категории'
+						className='absolute bottom-[20px] right-[20px] md:left-1/2 md:transform md:-translate-x-1/2 md:w-[200px]'
+					/>
 				</div>
 			</Modal>
 		</div>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { axiosInstance } from '../../../../api';
 
 export interface IOption {
@@ -8,22 +8,51 @@ export interface IOption {
 	id: string;
 }
 
+const Depth = 2;
+
+const fillCategoryById = (id: string, options: IOption[], fillCategories: IOption[]) => {
+	const fn = (option: IOption): IOption | undefined => {
+		if (option.id === id) {
+			return option;
+		} else {
+			return option.children?.map(fn).filter(Boolean)[0];
+		}
+	};
+
+	const foundCategory = options.map(fn).filter(Boolean)[0];
+	if (foundCategory) {
+		foundCategory.children = fillCategories;
+	}
+};
+
 export const useCategories = () => {
-	const [categories, setCategories] = useState<IOption[]>();
+	const [categories, setCategories] = useState<IOption[]>([]);
 
-	useEffect(() => {
-		const fn = async () => {
+	const loadCategories = useCallback(
+		async (parentCategoryId?: string) => {
 			try {
-				const res = await axiosInstance.get<IOption[]>('/categories');
-
-				setCategories(res.data);
+				const { data: newCategories } = await axiosInstance.get<IOption[]>(
+					`/categories/${parentCategoryId ?? ''}?depth=${Depth}`
+				);
+				setCategories((prev) => {
+					if (parentCategoryId) {
+						const prevCopy = structuredClone(prev);
+						fillCategoryById(parentCategoryId, prevCopy, newCategories);
+						return prevCopy;
+					} else {
+						return newCategories;
+					}
+				});
 			} catch (err) {
 				console.log(err);
 			}
-		};
+		},
+		[setCategories]
+	);
 
-		fn();
-	}, []);
+	useEffect(() => {
+		loadCategories();
+	}, [loadCategories]);
 
-	return categories;
+	return { categories, loadCategories };
 };

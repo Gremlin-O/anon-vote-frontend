@@ -9,7 +9,7 @@ interface ISearchProps {
 const Search: FC<ISearchProps> = ({ onChangeValue, value }) => {
 	return (
 		<div>
-			<div className='bg-white border rounded-[10px] w-[90%] mx-auto p-[10px] cursor-pointer flex gap-[10px]'>
+			<div className='bg-white border rounded-[10px] w-[90%] mx-auto p-[10px] cursor-pointer flex gap-[10px] 2xl:w-[80%] lg:ml-[20px] lg:mr-0'>
 				<img src={SearchImg.src} className='w-[35px]' />
 				<input
 					value={value}

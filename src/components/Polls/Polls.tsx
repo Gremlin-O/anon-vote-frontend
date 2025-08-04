@@ -11,16 +11,16 @@ const polls: IPoll[] = [
 				id: '123',
 				text: 'Почему?',
 				answers: [
-					{ response: 'Тест1', isChosen: false, id: '0' },
-					{ response: 'Тест2', isChosen: true, id: '0' },
+					{ response: 'Тест1', id: '0' },
+					{ response: 'Тест2', id: '0' },
 				],
 			},
 			{
 				id: '123',
 				text: 'Сколько?',
 				answers: [
-					{ response: 'Тест1', isChosen: false, id: '0' },
-					{ response: 'Тест2', isChosen: true, id: '0' },
+					{ response: 'Тест1', id: '0' },
+					{ response: 'Тест2', id: '0' },
 				],
 			},
 		],
@@ -34,16 +34,16 @@ const polls: IPoll[] = [
 				id: '123',
 				text: 'Почему?',
 				answers: [
-					{ response: 'Тест1', isChosen: false, id: '0' },
-					{ response: 'Тест2', isChosen: true, id: '0' },
+					{ response: 'Тест1', id: '0' },
+					{ response: 'Тест2', id: '0' },
 				],
 			},
 			{
 				id: '123',
 				text: 'Сколько?',
 				answers: [
-					{ response: 'Тест1', isChosen: false, id: '0' },
-					{ response: 'Тест2', isChosen: true, id: '0' },
+					{ response: 'Тест1', id: '0' },
+					{ response: 'Тест2', id: '0' },
 				],
 			},
 		],

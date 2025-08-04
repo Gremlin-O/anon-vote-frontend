@@ -73,7 +73,7 @@ const Modal: FC<IModalProps> = ({ children, className, show, onClose }) => {
 							>
 								<img
 									src={Close.src}
-									className='absolute top-[20px] right-[20px] w-[40px] cursor-pointer duration-75 hover:scale-[1.2]'
+									className='absolute top-[20px] right-[20px] w-[40px] cursor-pointer duration-75 hover:scale-[1.2] md:w-[30px] md:top-[10px] md:right-[10px] md:hover:scale-[1.1]'
 									onClick={onClose}
 								/>
 								{children}

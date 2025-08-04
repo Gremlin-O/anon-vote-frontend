@@ -27,15 +27,15 @@ const Poll: FC<IPollProps> = ({ title, tags, queries, onSubmit, id }) => {
 	};
 
 	return (
-		<div className='border rounded-[20px] p-[20px] w-[800px] bg-amber-50'>
+		<div className='border rounded-[20px] p-[20px] w-[60%] bg-amber-50 xl:w-[100%]'>
 			<div className='flex justify-between border-b items-center'>
-				<h1 className='text-[40px]'>{title}</h1>
+				<h1 className='font-semibold text-[40px] md:text-[25px]'>{title}</h1>
 				<div className='flex flex-wrap gap-[10px]'>
 					{tags.map((tag, tagInd) => {
 						return (
 							<p
 								key={tagInd}
-								className='text-orange-400 text-shadow-amber-200 font-semibold text-shadow-[2px_2px_3px]'
+								className='text-[20px] text-orange-400 text-shadow-amber-200 font-semibold text-shadow-[2px_2px_3px] md:text-[16px] sm:text-[14px]'
 							>
 								#{tag}
 							</p>
@@ -48,7 +48,7 @@ const Poll: FC<IPollProps> = ({ title, tags, queries, onSubmit, id }) => {
 					{queries.map((query, queryInd) => {
 						return (
 							<div key={queryInd} className='border rounded-[10px] p-[10px] bg-white'>
-								<h1 className='text-[24px]'>{query.text}</h1>
+								<h1 className='text-[24px] sm:text-[18px]'>{query.text}</h1>
 								{query.answers.map((answer, answerInd) => {
 									return (
 										<div
@@ -70,7 +70,7 @@ const Poll: FC<IPollProps> = ({ title, tags, queries, onSubmit, id }) => {
 													}
 												)}
 											></div>
-											<p className='text-[20px]'>{answer.response}</p>
+											<p className='text-[20px] sm:text-[14px]'>{answer.response}</p>
 										</div>
 									);
 								})}
