@@ -1,13 +1,16 @@
 'use client';
-import { FC, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 // import Option from './OptionList';
 import OptionList from './OptionList';
 import { IOption } from '@/widgets/CategoriesModal/api/useCategoriese';
+import { useMobile } from '@/shared/utils/useMobile';
+import Arrow from '@/assets/images/arrow.svg';
+import { div } from 'motion/react-client';
 
 interface IOptionsProps {
 	options: IOption[];
 	path: number[];
-	onChange: (path: number[]) => void;
+	onChange: (path: number[], isOpened: boolean) => void;
 }
 
 // const getMaxDepth = (options: IOption[]): number => {
@@ -20,29 +23,75 @@ interface IOptionsProps {
 // };
 
 const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
-	const selectOption = (listInd: number, ind: number) => {
-		if (path.length - 1 > listInd && path[listInd + 1] === ind) {
-			onChange(path.slice(0, listInd + 1));
+	const isMobile = useMobile();
+	const selectOption = (level: IOption[], levelInd: number, ind: number) => {
+		if (path.length - 1 > levelInd && path[levelInd + 1] === ind) {
+			onChange(path.slice(0, levelInd + 1), false);
 		} else {
-			onChange(path.slice(0, listInd + 1).concat([ind]));
+			if (level[ind].children?.length) {
+				onChange(path.slice(0, levelInd + 1).concat([ind]), true);
+			} else {
+				onChange(path.slice(0, levelInd + 1), true);
+			}
 		}
 	};
-	let option = options;
+
+	const getLevels = useCallback(() => {
+		const levels: IOption[][] = [options];
+
+		for (let i = 1; i < path.length; i++) {
+			const prevLevel = levels[i - 1];
+			const newLevel = prevLevel[path[i]]?.children;
+			if (newLevel && newLevel.length) {
+				levels.push(newLevel);
+			}
+		}
+
+		return levels;
+	}, [path, options]);
+
+	const currentLevels = useMemo(() => getLevels(), [getLevels]);
+
+	console.log('path', path);
+
+	const goBack = () => {
+		if (path.length > 1) {
+			onChange(path.slice(0, path.length - 1), false);
+		}
+	};
+
 	return (
-		<div className='flex gap-[10px] flex-col items-center mt-[30px]'>
-			<OptionList options={options} onClick={(ind) => selectOption(0, ind)} selected={path[1] ?? null} />
-			{path.slice(1).map((pathEl, listInd) => {
-				if (!option?.[pathEl]?.children) return;
-				option = option[pathEl].children;
-				return (
+		<div className='flex flex-col overflow-hidden'>
+			{isMobile && (
+				<div className='flex cursor-pointer flex-start w-full m-2' onClick={goBack}>
+					<img src={Arrow.src} alt='' className='w-[20px] text-gray-400 rotate-180' />
+					<p>Назад</p>
+				</div>
+			)}
+			<div className='flex gap-[10px] flex-col items-center mt-[30px] md:mt-0 md:min-h-0'>
+				{!isMobile &&
+					currentLevels.map((level, levelInd) => {
+						if (!level.length) return;
+						return (
+							<OptionList
+								selected={path[levelInd + 1] ?? null}
+								key={levelInd + JSON.stringify(level)}
+								options={level}
+								onClick={(ind) => selectOption(level, levelInd, ind)}
+							/>
+						);
+					})}
+
+				{isMobile && currentLevels.length > 0 && (
 					<OptionList
-						selected={path[listInd + 2] ?? null}
-						key={path.slice(0, listInd + 2).toString()}
-						options={option}
-						onClick={(ind) => selectOption(listInd + 1, ind)}
+						selected={null}
+						options={currentLevels[currentLevels.length - 1]}
+						onClick={(ind) =>
+							selectOption(currentLevels[currentLevels.length - 1], path.length - 1, ind)
+						}
 					/>
-				);
-			})}
+				)}
+			</div>
 		</div>
 	);
 };

@@ -12,10 +12,13 @@ import { useModal } from '../Modal/useModal';
 import CategoriesModal from '../CategoriesModal/CategoriesModal';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMobile } from '@/shared/utils/useMobile';
+import CreatePollModal from '../CreatePollModal/CreatePollModal';
 
 const Navbar = () => {
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 	const categoriesModal = useModal('categories-modal');
+	const createPollModal = useModal('create-poll-modal');
+
 	const isMobile = useMobile();
 	return (
 		<>
@@ -67,6 +70,7 @@ const Navbar = () => {
 						'w-[100px]': !isCollapsed,
 						'opacity-0': isCollapsed && isMobile,
 					})}
+					onClick={() => createPollModal.show()}
 				>
 					{isCollapsed ? <img src={Plus.src} className='w-[20px]' /> : 'Создать опрос'}
 				</Button>
@@ -88,6 +92,7 @@ const Navbar = () => {
 					/>
 				</Button>
 				<CategoriesModal show={categoriesModal.isShown} onClose={categoriesModal.hide} />
+				<CreatePollModal show={createPollModal.isShown} onClose={createPollModal.hide} />
 			</div>
 		</>
 	);

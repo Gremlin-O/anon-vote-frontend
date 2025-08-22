@@ -12,7 +12,7 @@ const Button: FC<IButtonProps> = ({ text, className, children, onClick }) => {
 	return (
 		<div
 			className={twMerge(
-				'font-[20px] text-center font-semibold border-2 bg-white p-[10px] cursor-pointer rounded-[20px] select-none duration-100 hover:border-zinc-500 hover:scale-[1.02] group',
+				'font-[20px] text-center font-semibold border-2 bg-white p-[10px] cursor-pointer rounded-[20px] select-none duration-100 hover:border-zinc-500 group',
 				className
 			)}
 			onClick={() => onClick?.()}

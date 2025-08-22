@@ -1,7 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IPoll, usePolls } from './api/usePolls';
 import Poll from './Poll/Poll';
+import Search from '../Search/Search';
+import { searchPolls } from './api/searchPolls';
 
 const polls: IPoll[] = [
 	{
@@ -62,26 +64,42 @@ polls.forEach((poll, i1) => {
 
 const Polls = () => {
 	// const polls = usePolls();
-
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const answers = useState<Record<string, { response: string; isChosen: boolean }[]>[]>();
-
+	const [searchValue, setSearchValue] = useState<string>('');
+	useEffect(() => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+		timeoutRef.current = setTimeout(async () => {
+			const data = await searchPolls(searchValue);
+		}, 300);
+	}, [searchValue]);
 	const handleSubmitClick = () => {};
-
 	return (
-		<div className='flex flex-col gap-[20px]'>
-			{polls?.map((poll) => {
-				return (
-					<Poll
-						id={poll.id}
-						onSubmit={handleSubmitClick}
-						key={poll.id}
-						title={poll.title}
-						tags={poll.tags}
-						queries={poll.queries}
-					></Poll>
-				);
-			})}
-		</div>
+		<>
+			<Search
+				value={searchValue}
+				onChangeValue={(inputValue) => {
+					setSearchValue(inputValue);
+				}}
+				className='ml-0 mb-[20px] w-[60%]!'
+			/>
+			<div className='flex flex-col gap-[20px]'>
+				{polls?.map((poll) => {
+					return (
+						<Poll
+							id={poll.id}
+							onSubmit={handleSubmitClick}
+							key={poll.id}
+							title={poll.title}
+							tags={poll.tags}
+							queries={poll.queries}
+						></Poll>
+					);
+				})}
+			</div>
+		</>
 	);
 };
 

@@ -65,7 +65,7 @@ const Modal: FC<IModalProps> = ({ children, className, show, onClose }) => {
 									scale: { type: 'spring', visualDuration: 0.2, bounce: 0.4 },
 								}}
 								className={twMerge(
-									'absolute left-[50%] top-[50%] translate-[-50%] w-[70%] h-[90%] bg-amber-50 border rounded-[20px]',
+									'absolute left-[50%] top-[50%] translate-[-50%] w-[70%] h-[90%] bg-amber-50 border rounded-[20px] md:flex md:w-[85%]',
 									clsx({}),
 
 									className

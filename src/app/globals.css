@@ -8,3 +8,44 @@
 @custom-variant lg (@media (max-width: 1000px));
 @custom-variant md (@media (max-width: 600px));
 @custom-variant sm (@media (max-width: 430px));
+
+@layer utilities {
+	.scrollbar::-webkit-scrollbar {
+		width: 20px;
+		height: 20px;
+	}
+	.scrollbar::-webkit- .scrollbar::-webkit-scrollbar-track {
+		border-radius: 100vh;
+		background: #f7f4ed;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background: #e0cbcb;
+		border-radius: 100vh;
+		border: 3px solid #f6f7ed;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb:hover {
+		background: #c0a0b9;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.text-primary {
+		color: #40bc9f;
+	}
+	.text-secondary {
+		color: #dab76b;
+	}
+	.bg-primary {
+		background-color: #40bc9f;
+	}
+	.bg-secondary {
+		background-color: #dab76b;
+	}
+}

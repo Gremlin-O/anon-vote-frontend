@@ -6,6 +6,7 @@ import Arrow from '@/assets/images/arrow.svg';
 import { IOption, useCategories } from './api/useCategoriese';
 import Button from '@/components/Button/Button';
 import { useCategoriesStore } from '@/store/store';
+import { useMobile } from '@/shared/utils/useMobile';
 
 interface ICategoriesModalProps {
 	show: boolean;
@@ -40,9 +41,14 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 		() => filterOptions(typeof options === 'undefined' ? [] : options, searchValue),
 		[searchValue]
 	);
-	console.log(filteredPaths);
 
 	const { currentCategory, setCurrentCategory, selectedPath, setSelectedPath } = useCategoriesStore();
+
+	useEffect(() => {
+		if (currentCategory) {
+			localStorage.setItem('currentCategory', JSON.stringify(currentCategory));
+		}
+	}, [currentCategory]);
 
 	useEffect(() => {
 		if (filteredPaths.length) {
@@ -56,7 +62,7 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 		setSelectedPath(filteredPaths[newIndex]);
 	};
 
-	const updateSelectedPath = (newPath: number[]) => {
+	const updateSelectedPath = (newPath: number[], isOpened: boolean) => {
 		setSelectedPath(newPath);
 		let option: IOption | undefined = undefined;
 		for (const pathEl of newPath.slice(1)) {
@@ -69,13 +75,16 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 		console.log(option);
 		if (option) {
 			setCurrentCategory(option);
+			if (isOpened) {
+				loadCategories(option.id);
+			}
 		}
 	};
 
 	return (
 		<div>
 			<Modal show={show} onClose={onClose}>
-				<div className='p-[20px]'>
+				<div className='p-[20px] md:flex md:flex-col md:flex-1'>
 					{filteredPaths.length > 0 && (
 						<div className='absolute top-[80px] right-[20px] flex flex-col items-center'>
 							<div>
@@ -102,10 +111,6 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({ show, children, onClose })
 						options={typeof options === 'undefined' ? [] : options}
 						path={selectedPath}
 						onChange={updateSelectedPath}
-					/>
-					<Button
-						text='Показать выбранные категории'
-						className='absolute bottom-[20px] right-[20px] md:left-1/2 md:transform md:-translate-x-1/2 md:w-[200px]'
 					/>
 				</div>
 			</Modal>
