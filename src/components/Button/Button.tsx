@@ -12,15 +12,13 @@ const Button: FC<IButtonProps> = ({ text, className, children, onClick }) => {
 	return (
 		<div
 			className={twMerge(
-				'font-[20px] text-center font-semibold border-2 bg-white p-[10px] cursor-pointer rounded-[20px] select-none duration-100 hover:border-zinc-500 group',
+				'text-[16px] text-center font-semibold border-medium text-primary bg-white p-[10px] cursor-pointer rounded-[20px] select-none duration-100 hover:border-zinc-500 ',
 				className
 			)}
 			onClick={() => onClick?.()}
 		>
-			<span className='group-hover:scale-[0.98039]'>
 				{text}
 				{children}
-			</span>
 		</div>
 	);
 };

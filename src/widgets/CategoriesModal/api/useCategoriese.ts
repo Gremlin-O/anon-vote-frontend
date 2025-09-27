@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { axiosInstance } from '../../../../api';
-import { useCategoriesStore } from '@/store/store';
+import { useCategoriesStore } from '@/store/categoriesStore';
 
 export interface IOption {
 	name: string;

@@ -5,7 +5,7 @@ import Search from '@/components/Search/Search';
 import Arrow from '@/assets/images/arrow.svg';
 import { IOption, useCategories } from './api/useCategoriese';
 import Button from '@/components/Button/Button';
-import { useCategoriesStore } from '@/store/store';
+import { useCategoriesStore } from '@/store/categoriesStore';
 import { useMobile } from '@/shared/utils/useMobile';
 
 interface ICategoriesModalProps {

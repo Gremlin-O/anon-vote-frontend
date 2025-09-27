@@ -40,7 +40,7 @@ const SelectCategory = () => {
 				onChange={(e) => setInputValue(e.currentTarget.value)}
 				type='text'
 				placeholder='Введите категорию опроса'
-				className={clsx('border rounded-[5px] p-[8px] text-[16px] outline-0 w-full duration-100', {
+				className={clsx('border-medium rounded-[5px] p-[8px] text-[16px] outline-0 w-full duration-100 bg-white text-primary', {
 					'rounded-b-none': isOpen,
 					'rounded-b-[5px]': !isOpen,
 				})}

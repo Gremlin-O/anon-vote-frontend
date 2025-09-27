@@ -13,7 +13,7 @@ const Search: FC<ISearchProps> = ({ onChangeValue, value, className }) => {
 		<div>
 			<div
 				className={clsx(
-					'bg-white border rounded-[10px] w-[90%] mx-auto p-[10px] cursor-pointer flex gap-[10px] 2xl:w-[80%] lg:ml-[20px] lg:mr-0',
+					'bg-white border-bold rounded-[10px] w-[90%] mx-auto p-[10px] cursor-pointer flex gap-[10px] 2xl:w-[80%] lg:ml-[20px] lg:mr-0',
 					className
 				)}
 			>

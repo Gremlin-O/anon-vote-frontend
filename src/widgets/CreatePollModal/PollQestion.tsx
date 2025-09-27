@@ -26,7 +26,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
 	const isMobile = useMobile();
 
 	return (
-		<div className='rounded-[10px] border-2 bg-white flex flex-col gap-[10px] p-[10px] md:p-[5px]'>
+		<div className='rounded-[10px] border-bold bg-white text-primary flex flex-col gap-[10px] p-[10px] md:p-[5px]'>
 			<div className='flex w-full gap-[20px] items-center md:flex-col md:items-start md:gap-[5px]'>
 				{isMobile && (
 					<div
@@ -41,7 +41,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
 					onChange={(e) => changeQuestion(e.currentTarget.value)}
 					type='text'
 					placeholder='Введите вопрос'
-					className='border rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 '
+					className='border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 '
 				/>
 				{!isMobile && (
 					<div
@@ -61,7 +61,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
 								onChange={(e) => changeAnswer(e.currentTarget.value, answerInd)}
 								type='text'
 								placeholder='Введите ответ'
-								className='border rounded-[5px] p-[8px] text-[16px] outline-0 flex-1'
+								className='border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 flex-1'
 							/>
 							{answers.length > 2 && (
 								<div
