@@ -1,10 +1,14 @@
 import { axiosInstance } from '../../../api';
-import { IPoll } from './Poll';
+import Poll, { IPoll } from './Poll';
+
+
+
 
 export const createPoll = async (poll: IPoll) => {
-	try {
-		await axiosInstance.post<IPoll>(`/categories/#`, { poll });
-	} catch (err) {
-		console.log(err);
-	}
+	return axiosInstance.post<IPoll>(`/polls`, { 
+			title: poll.name,
+			questions: poll.questions.map((qst)=>({text: qst.text, options: qst.answers.map((ans)=>ans.text)})),
+			categoryId: poll.category?.id,
+			tags: poll.tags
+		 });
 };

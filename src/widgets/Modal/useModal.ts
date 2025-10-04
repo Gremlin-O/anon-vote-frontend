@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export const useModal = (modalHash: string) => {
+export const useModal = (modalHash?: string) => {
 	const [isShown, setIsShown] = useState(false);
 
 	const show = useCallback(() => {
 		setIsShown(true);
-		window.location.hash = modalHash;
+		if (modalHash) {
+			window.location.hash = modalHash;
+		}
 	}, [setIsShown, modalHash]);
 
 	const hide = useCallback(() => {
@@ -22,7 +24,7 @@ export const useModal = (modalHash: string) => {
 	}, [isShown, hide, show]);
 
 	useEffect(() => {
-		if (window.location.hash === '#' + modalHash) {
+		if (modalHash && window.location.hash === '#' + modalHash) {
 			show();
 		}
 	}, [show, modalHash]);

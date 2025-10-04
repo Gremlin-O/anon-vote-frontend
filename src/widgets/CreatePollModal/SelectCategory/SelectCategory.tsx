@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { fetchCategoriesByName, ICategory } from './fetchCategoriesByName';
 import clsx from 'clsx';
-const SelectCategory = () => {
+import CategoryOptionItem from './CategoryOptionItem';
+const SelectCategory:FC<{onChange: (category: ICategory)=> void}> = ({onChange}) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [inputValue, setInputValue] = useState<string>('');
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const [currentCategories, setCurrentCategories] = useState<ICategory[]>([
-		{ name: 'Test', id: '1' },
-		{ name: 'Test1', id: '2' },
-	]);
+	const [currentCategories, setCurrentCategories] = useState<ICategory[]>([]);
 	useEffect(() => {
 		const callback = () => {
 			setIsOpen(false);
@@ -21,15 +19,15 @@ const SelectCategory = () => {
 			window.removeEventListener('click', callback);
 		};
 	}, [setIsOpen]);
-	// useEffect(() => {
-	// 	if (timeoutRef.current) {
-	// 		clearTimeout(timeoutRef.current);
-	// 	}
-	// 	timeoutRef.current = setTimeout(async () => {
-	// 		const data = await fetchCategoriesByName();
-	// 		setCurrentCategories(data);
-	// 	}, 300);
-	// }, [inputValue]);
+	useEffect(() => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+		timeoutRef.current = setTimeout(async () => {
+			const data = await fetchCategoriesByName(inputValue);
+			setCurrentCategories(data);
+		}, 300);
+	}, [inputValue]);
 
 	return (
 		<div className=' mb-[20px] w-full relative' onClick={(e) => e.stopPropagation()}>
@@ -46,19 +44,10 @@ const SelectCategory = () => {
 				})}
 			/>
 			{isOpen && (
-				<div className='absolute left-0 w-full flex flex-col max-h-[100px] bg-white border rounded-[5px] rounded-t-none border-t-0'>
+				<div className='absolute left-0 w-full flex flex-col max-h-[300px] scrollbar-hide  overflow-auto bg-white border-medium border-b-0! border-t-0! rounded-[5px] rounded-t-none border-t-0 rounded-b-[10px]'>
 					{currentCategories?.map((category, categoryInd) => {
 						return (
-							<div
-								key={category.id}
-								className='p-[5px] cursor-pointer duration-100 hover:bg-gray-100'
-								onClick={() => {
-									setInputValue(category.name);
-									setIsOpen(false);
-								}}
-							>
-								{category.name}
-							</div>
+							<CategoryOptionItem category={category} onChange={(name)=>{setInputValue(name); setIsOpen(false); onChange(category)}} key={category.id}/>
 						);
 					})}
 				</div>

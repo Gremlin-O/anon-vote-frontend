@@ -10,16 +10,16 @@ import clsx from 'clsx';
 import { useModal } from '../Modal/useModal';
 import CategoriesModal from '../CategoriesModal/CategoriesModal';
 import { useMobile } from '@/shared/utils/useMobile';
-import CreatePollModal from '../CreatePollModal/CreatePollModal';
+import CreatePollModal, { CreatePollModalId } from '../CreatePollModal/CreatePollModal';
 import NavButton from './NavButton/NavButton';
 import LoginModal from '../LoginModal/LoginModal';
+import { useModalsStore } from '@/store/modalsStore';
 
 const Navbar = () => {
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 	const categoriesModal = useModal('categories-modal');
-	const createPollModal = useModal('create-poll-modal');
+	const { openModal } = useModalsStore();
 	const createLoginModal = useModal('create-login-modal');
-
 
 	const isMobile = useMobile();
 	return (
@@ -34,7 +34,7 @@ const Navbar = () => {
 
 			<div
 				className={clsx(
-					'bg-light border-[#7b1258] fixed left-0 h-[100%] flex flex-col  items-center duration-200',
+					'bg-light border-[#7b1258] fixed left-0 h-[100%] flex flex-col  items-center duration-200 z-20',
 					{
 						'w-[80px] gap-[20px]  border-r-4': isCollapsed && !isMobile,
 						'w-[180px]  gap-[20px]  border-r-4': !isCollapsed && !isMobile,
@@ -54,14 +54,31 @@ const Navbar = () => {
 					)}
 					onClick={() => setIsCollapsed(!isCollapsed)}
 				/>
-				<NavButton text='Категории опросов' src={List.src} isCollapsed={isCollapsed} isMobile={isMobile} onClick={categoriesModal.toggle} className='mt-[70px]'/>
-				<NavButton text='Создать опрос' src={Plus.src} isCollapsed={isCollapsed} isMobile={isMobile} onClick={createPollModal.show}/>
-				<NavButton text='Профиль' src={Profile.src} isCollapsed={isCollapsed} isMobile={isMobile} onClick={createPollModal.show}/>
+				<NavButton
+					text='Категории опросов'
+					src={List.src}
+					isCollapsed={isCollapsed}
+					isMobile={isMobile}
+					onClick={categoriesModal.toggle}
+					className='mt-[70px]'
+				/>
+				<NavButton
+					text='Создать опрос'
+					src={Plus.src}
+					isCollapsed={isCollapsed}
+					isMobile={isMobile}
+					onClick={() => openModal(CreatePollModalId)}
+				/>
+				<NavButton
+					text='Профиль'
+					src={Profile.src}
+					isCollapsed={isCollapsed}
+					isMobile={isMobile}
+					onClick={() => openModal(CreatePollModalId)}
+				/>
 
-	
 				<CategoriesModal show={categoriesModal.isShown} onClose={categoriesModal.hide} />
-				<CreatePollModal show={createPollModal.isShown} onClose={createPollModal.hide} />
-				<LoginModal show={false} onClose={createLoginModal.hide}/>
+				<LoginModal show={false} onClose={createLoginModal.hide} />
 			</div>
 		</>
 	);

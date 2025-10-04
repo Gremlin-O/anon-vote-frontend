@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '../../../../api';
 
-export interface IAnswer {
-	id: string;
-	response: string;
-}
-
 export interface IQuery {
 	id: string;
 	text: string;
-	answers: IAnswer[];
+	answers: string[];
 }
 
 export interface IPoll {
