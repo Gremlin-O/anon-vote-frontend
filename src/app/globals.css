@@ -45,7 +45,6 @@ body {
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
-
   }
   .text-primary {
     color: #7b1258;
@@ -81,6 +80,7 @@ body {
   .inactive {
     position: relative;
     box-sizing: content-box;
+    pointer-events: none;
   }
   .inactive::after {
     content: "";

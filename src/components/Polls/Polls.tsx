@@ -1,98 +1,110 @@
-'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { IPoll, usePolls } from './api/usePolls';
-import Poll from './Poll/Poll';
-import Search from '../Search/Search';
-import { searchPolls } from './api/searchPolls';
-import { useCategoriesStore } from '@/store/categoriesStore';
-import { useDebounce } from './useDebounce';
-import { useNearBottom } from './useNearBottom';
-
-const getSearchProperties = (search: string) => {
-	const tags: string[] = [];
-	while (search.indexOf('#') > -1) {
-		const start = search.indexOf('#') + 1;
-		let end = search.indexOf(' ', start);
-		if (end < 0) end = search.length;
-		tags.push(search.slice(start, end));
-		console.log(start, end);
-		search = search.slice(0, start - 1) + search.slice(end + 1);
-	}
-	return {
-		search,
-		tags,
-	};
-};
-// const mergeData = (prevData: IPoll[], newData: IPoll[]) => {
-// 	return
-// }
+"use client";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import Poll from "./Poll/Poll";
+import Search from "../Search/Search";
+import { searchPolls } from "./api/searchPolls";
+import { useCategoriesStore } from "@/store/categoriesStore";
+import { useDebounce } from "./useDebounce";
+import { useNearBottom } from "./useNearBottom";
+import { ThreeDot } from "react-loading-indicators";
+import PollTagsInput from "./PollTagsInput";
+import { sendAnswers } from "./api/sendAnswers";
+import { IPoll } from "./api/models";
 
 const Polls = () => {
-	const [page, setPage] = useState<number>(0);
-	const { isNearBottom, triggerRef, setIsNearBottom } = useNearBottom({
-		threshold: 0.1,
-		rootMargin: '100px',
-	});
-	const { currentCategory } = useCategoriesStore();
-	const [polls, setPolls] = useState<IPoll[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(0);
+  const { isNearBottom, triggerRef, setIsNearBottom } = useNearBottom({
+    threshold: 0.1,
+    rootMargin: "100px",
+  });
+  const { currentCategory } = useCategoriesStore();
+  const [polls, setPolls] = useState<IPoll[]>([]);
 
-	const answers = useState<Record<string, { response: string; isChosen: boolean }[]>[]>();
-	const [searchValue, setSearchValue] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
 
-	const searchPollsFn = useCallback(async () => {
-		const { search, tags } = getSearchProperties(searchValue);
-		try {
-			const pollsPage = await searchPolls(search, tags, page, currentCategory?.id);
-			setPolls((prev) => [...prev, ...pollsPage.content]);
-		} catch (err) {}
-	}, [searchValue, currentCategory, setPolls, page]);
+  const searchPollsFn = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const pollsPage = await searchPolls(
+        search,
+        tags,
+        page,
+        currentCategory?.id
+      );
+      setTimeout(() => {
+        setPolls((prev) => [...prev, ...pollsPage.content]);
+        setHasNextPage(pollsPage.hasNextPage);
+      }, 100);
+    } catch (err) {
+    } finally {
+      setIsLoading(false);
+    }
+  }, [search, tags, currentCategory, setPolls, page, setHasNextPage]);
 
-	const searchPollsDebounced = useDebounce(searchPollsFn, 300);
+  const searchPollsDebounced = useDebounce(searchPollsFn, 300);
 
-	useEffect(() => {
-		if (isNearBottom) {
-			if (polls.length > 0) {
-				setPage(page + 1);
-			}
-			setIsNearBottom(false);
-		}
-	}, [isNearBottom, setPage, setIsNearBottom]);
+  useEffect(() => {
+    if (isNearBottom) {
+      if (polls.length > 0) {
+        setPage(page + 1);
+      }
+      setIsNearBottom(false);
+    }
+  }, [isNearBottom, setPage, setIsNearBottom]);
 
-	useEffect(() => {
-		setPage(0);
-		console.log('firset', page);
-		setPolls([]);
-	}, [searchValue, setPage]);
+  useEffect(() => {
+    setPage(0);
+    setPolls([]);
+    setHasNextPage(true);
+  }, [search, tags, setPage, setHasNextPage]);
 
-	useEffect(() => {
-		searchPollsDebounced();
-	}, [searchPollsDebounced]);
+  useEffect(() => {
+    if (hasNextPage) {
+      searchPollsDebounced();
+    }
+  }, [searchPollsDebounced, hasNextPage]);
 
-	const handleSubmitClick = () => {};
-	return (
-		<>
-			<Search
-				value={searchValue}
-				onChangeValue={setSearchValue}
-				className='ml-0! w-[60%]! md:w-full! '
-			/>
-			<div className=' rounded-[20px] box-border mt-[20px] flex flex-col max-h-full gap-[20px] overflow-auto flex-1 scrollbar-hide'>
-				{polls?.map((poll, pollInd) => {
-					return (
-						<Poll
-							id={poll.id}
-							onSubmit={handleSubmitClick}
-							key={poll.id}
-							title={poll.title}
-							tags={poll.tags}
-							queries={poll.queries}
-						></Poll>
-					);
-				})}
-				<div ref={triggerRef} className='h-[1px]'></div>
-			</div>
-		</>
-	);
+  const handleInputChange = (tags: string[], search: string) => {
+    setTags(tags);
+    setSearch(search);
+  };
+
+  return (
+    <>
+      <PollTagsInput
+        tags={tags}
+        search={search}
+        className="ml-0! w-[60%]! md:w-full!"
+        inputChange={(tags, search) => {
+          handleInputChange(tags, search);
+        }}
+      />
+      <div className=" rounded-[20px] box-border mt-[20px] flex flex-col max-h-full gap-[20px] overflow-auto flex-1 scrollbar-hide">
+        {polls?.map((poll, pollInd) => {
+          return (
+            <Poll
+              id={poll.id}
+              key={poll.id}
+              title={poll.title}
+              tags={poll.tags}
+              queries={poll.queries}
+              backIsAnswered={poll.isAnswered}
+            ></Poll>
+          );
+        })}
+        {isLoading && (
+          <div className="w-full flex justify-center mt-[40px]">
+            <ThreeDot color="#7b1258" size="large" text="" textColor="" />
+          </div>
+        )}
+
+        <div ref={triggerRef} className="h-[1px]"></div>
+      </div>
+    </>
+  );
 };
 
 export default Polls;
