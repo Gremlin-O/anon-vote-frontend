@@ -91,7 +91,7 @@ const Poll: FC<IPollProps> = ({
                 {query.answers.map((answer, answerInd) => {
                   return (
                     <div
-                      key={answer}
+                      key={answer + answerInd}
                       className="group flex gap-[5px] items-center w-full cursor-pointer"
                       onClick={() =>
                         setSelectedResponses((selectedResponses) => ({
