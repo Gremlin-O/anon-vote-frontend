@@ -152,11 +152,11 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
             validate: (questions): Message => {
               const errors: string[] = [];
               if (questions.length < 1)
-                errors.push("должен быть хотя бы 1 вопрос");
+                errors.push("Должен быть хотя бы 1 вопрос");
               if (questions.some((q) => q.answers.some((a) => !a.text)))
-                errors.push("не должно быть пустых ответов");
+                errors.push("Не должно быть пустых ответов");
               if (questions.some((q) => !q.text))
-                errors.push("не должно быть пустых вопросов");
+                errors.push("Не должно быть пустых вопросов");
 
               return errors[0];
             },
@@ -232,6 +232,11 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
                   );
                 })}
               </div>
+              {fieldState.error && (
+                <p className="text-red-500 text-sm mt-1">
+                  {fieldState.error.message}
+                </p>
+              )}
             </>
           )}
         />
@@ -249,11 +254,7 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
         >
           <img src={Plus.src} alt="" className="w-[30px]" />
         </div>
-        {getFieldState("questions").error?.message && (
-          <p className="text-red-500 mt-[5px] mb-[5px]">
-            {getFieldState("questions").error?.message}
-          </p>
-        )}
+
         <Button
           type="submit"
           text="Создать опрос"

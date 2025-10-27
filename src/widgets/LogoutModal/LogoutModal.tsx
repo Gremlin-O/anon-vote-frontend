@@ -13,9 +13,15 @@ const LogoutModal: FC<LogoutModalProps> = ({ show, onClose }) => {
   const { setIsAuthed } = useAuthStore();
 
   return (
-    <Modal show={show} className="w-[40%] h-[30%]" onClose={onClose}>
+    <Modal
+      show={show}
+      className="w-[40%] h-[30%] lg:w-[50%] lg:h-[35%]"
+      onClose={onClose}
+    >
       <div className="p-[20px]">
-        <h1 className="text-primary text-[40px]">Выйти из аккаунта?</h1>
+        <h1 className="text-primary mt-[20px] text-[40px] lg:text-[32px]">
+          Выйти из аккаунта?
+        </h1>
         <div className="flex gap-[20px] mt-[40px]">
           <Button
             text="Да"
@@ -26,12 +32,12 @@ const LogoutModal: FC<LogoutModalProps> = ({ show, onClose }) => {
                 onClose();
               } catch (error) {}
             }}
-            className="w-[100px] text-[24px]"
+            className="w-[100px] text-[24px] md:w-[70px]"
           />
           <Button
             text="Нет"
             onClick={() => onClose()}
-            className="w-[100px] text-[24px]"
+            className="w-[100px] text-[24px] md:w-[70px]"
           />
         </div>
       </div>
