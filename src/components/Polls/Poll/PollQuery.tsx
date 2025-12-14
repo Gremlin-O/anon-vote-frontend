@@ -32,7 +32,6 @@ const PollQuery: FC<IPollQueryProps> = ({
             key={answer + answerInd}
             className="group flex gap-[5px] items-center w-full cursor-pointer"
             onClick={() => onClick(answer)}
-            // }
           >
             <div
               className={clsx(

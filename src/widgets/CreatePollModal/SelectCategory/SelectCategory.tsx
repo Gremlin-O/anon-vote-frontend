@@ -4,11 +4,16 @@ import clsx from "clsx";
 import CategoryOptionItem from "./CategoryOptionItem";
 
 interface SelectCategoryProps {
+  isActive: boolean;
   onChange: (category?: ICategory) => void;
   value?: ICategory;
 }
 
-const SelectCategory: FC<SelectCategoryProps> = ({ onChange, value }) => {
+const SelectCategory: FC<SelectCategoryProps> = ({
+  onChange,
+  value,
+  isActive,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -60,6 +65,7 @@ const SelectCategory: FC<SelectCategoryProps> = ({ onChange, value }) => {
           {
             "rounded-b-none": isOpen,
             "rounded-b-[5px]": !isOpen,
+            inactive: !isActive,
           }
         )}
       />

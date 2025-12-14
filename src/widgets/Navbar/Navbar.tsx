@@ -24,7 +24,7 @@ import LogoutModal from "../LogoutModal/LogoutModal";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-  const categoriesModal = useModal("categories-modal");
+
   const logoutModal = useModal("logout-modal");
   const { openModal } = useModalsStore();
   const router = useRouter();
@@ -74,13 +74,7 @@ const Navbar = () => {
           onClick={() => linkHome()}
           className="mt-[70px]"
         />
-        <NavButton
-          text="Категории опросов"
-          src={List.src}
-          isCollapsed={isCollapsed}
-          isMobile={isMobile}
-          onClick={categoriesModal.toggle}
-        />
+
         <NavButton
           text="Создать опрос"
           src={Plus.src}
@@ -118,10 +112,7 @@ const Navbar = () => {
             onClick={() => openModal(LoginModalId)}
           />
         )}
-        <CategoriesModal
-          show={categoriesModal.isShown}
-          onClose={categoriesModal.hide}
-        />
+
         <LogoutModal
           show={logoutModal.isShown}
           onClose={logoutModal.hide}

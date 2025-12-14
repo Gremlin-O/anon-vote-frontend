@@ -2,6 +2,9 @@ import clsx from "clsx";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import SearchImg from "@/assets/images/search.svg";
 import DeleteSvg from "@/assets/images/close.svg";
+import { useModal } from "@/widgets/Modal/useModal";
+import CategoriesModal from "@/widgets/CategoriesModal/CategoriesModal";
+import Filter from "@/assets/images/Filter.svg";
 
 interface IPollTagsInputProps {
   tags: string[];
@@ -17,6 +20,7 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
   className,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const categoriesModal = useModal("categories-modal");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     inputChange(tags, e.currentTarget.value);
@@ -35,7 +39,7 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
   return (
     <div
       className={clsx(
-        "bg-white border-bold rounded-[10px] w-[90%] p-[10px] cursor-pointer flex gap-[10px]",
+        "bg-white border-bold rounded-[10px] w-[90%] p-[10px] cursor-pointer flex items-center gap-[10px]",
         className
       )}
     >
@@ -81,6 +85,18 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
             handleDeleteLastTag();
           }
         }}
+      />
+      <div>
+        <img
+          src={Filter.src}
+          alt=""
+          className="w-[30px] h-[30px]"
+          onClick={categoriesModal.toggle}
+        />
+      </div>
+      <CategoriesModal
+        show={categoriesModal.isShown}
+        onClose={categoriesModal.hide}
       />
     </div>
   );

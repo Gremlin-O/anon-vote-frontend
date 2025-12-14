@@ -12,7 +12,7 @@ import PollFooter from "./PollFooter";
 import PollQestion from "@/widgets/CreatePollModal/PollQestion";
 import PollQuery from "./PollQuery";
 import PollContent from "./PollContent";
-import { fetchStats } from "../api/fetchStats";
+import { fetchBasicStats } from "../api/fetchStats";
 import { IStat } from "@/components/Stat/Stat";
 
 interface IPollProps {
@@ -50,7 +50,7 @@ const Poll: FC<IPollProps> = ({
   const handleToggleStat = async () => {
     if (isAnswered || backIsAnswered) {
       try {
-        const stats = await fetchStats(id);
+        const stats = await fetchBasicStats(id);
         setShowStats((prev) => !prev);
         setPollStat(stats);
       } catch (error) {
@@ -61,8 +61,10 @@ const Poll: FC<IPollProps> = ({
 
   const handleSubmitClick = async () => {
     if (isDisabled) return;
-    if (Object.keys(selectedResponses).length < queries.length)
+    if (Object.keys(selectedResponses).length < queries.length) {
       setErrorText("Даны не все ответы!))");
+      return;
+    }
     try {
       await sendAnswers(id, selectedResponses);
       setIsAnswered(true);
@@ -90,7 +92,7 @@ const Poll: FC<IPollProps> = ({
       />
       {statError != "" && (
         <div>
-          <p className="text-[20px] text-red-500 mt-[7px] -mb-[10px]">
+          <p className="text-[20px] mt-[15px] text-red-500 mt-[7px] -mb-[10px]">
             {statError}
           </p>
         </div>
@@ -103,7 +105,7 @@ const Poll: FC<IPollProps> = ({
         </div>
       )}
       <PollFooter
-        onClick={() => handleSubmitClick}
+        onClick={() => handleSubmitClick()}
         isDisabled={isDisabled}
         statisticsImg={statistics.src}
         toggleStats={() => handleToggleStat()}

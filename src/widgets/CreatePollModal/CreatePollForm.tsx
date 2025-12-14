@@ -14,6 +14,8 @@ import CreatePollModal, { CreatePollModalId } from "./CreatePollModal";
 import { Controller, Message, SubmitHandler, useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 import { LoginModalId } from "../LoginModal/LoginModal";
+import { useModal } from "../Modal/useModal";
+import CreateCategoryModal from "./CreateCategoryModal/CreateCategoryModal";
 
 export interface IAnswer {
   text: string;
@@ -48,7 +50,10 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
     control,
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     watch,
+    trigger,
     setValue,
     getValues,
     getFieldState,
@@ -56,11 +61,12 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
   } = useForm<IPoll>({
     defaultValues: initialPoll,
   });
+  const createCategoryModal = useModal("create-category-modal");
   const { openModal } = useModalsStore();
   const questionsContRef = useRef<HTMLDivElement>(null);
   const onSubmit: SubmitHandler<IPoll> = async (data) => {
     try {
-      await createPoll(data);
+      await createPoll(data, newCategory?.name, newCategory?.id);
       onFormSubmit();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -70,7 +76,38 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
       }
     }
   };
+  const [newCategory, setNewCategory] = useState<{
+    name: string;
+    id: string;
+  }>();
+  const validateCategory = (value?: ICategory, isCreatingNew?: boolean) => {
+    // Если создается новая категория (isCreatingNew = true) - не проверяем выбор
+    if (isCreatingNew) {
+      return true;
+    }
 
+    // Если НЕ создается новая категория - выбор обязателен
+    if (!value) {
+      return "Категория обязательна";
+    }
+
+    return true;
+  };
+  useEffect(() => {
+    if (newCategory?.name !== "") {
+      // Если создается новая категория - очищаем ошибку
+      clearErrors("category");
+    } else if (!getValues("category")) {
+      // Если НЕ создается новая И категория не выбрана - устанавливаем ошибку
+      setError("category", {
+        type: "manual",
+        message: "Категория обязательна",
+      });
+    } else {
+      // Если категория выбрана - очищаем ошибку
+      clearErrors("category");
+    }
+  }, [newCategory?.name, setError, clearErrors]);
   return (
     <div
       className="h-full overflow-auto scrollbar-hide scroll-smooth"
@@ -108,11 +145,13 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
           name={"category"}
           control={control}
           rules={{
-            required: "Категория обязательна",
+            validate: (value) =>
+              validateCategory(value, newCategory?.name !== ""),
           }}
           render={({ field, fieldState }) => (
             <>
               <SelectCategory
+                isActive={newCategory?.name !== ""}
                 onChange={(category) => {
                   field.onChange(category);
                 }}
@@ -126,6 +165,11 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
             </>
           )}
         />
+        {newCategory && (
+          <p className="text-primary text-[20px] mb-[5px]">
+            Создана категория: {newCategory?.name}
+          </p>
+        )}
         <Controller
           name={"tags"}
           control={control}
@@ -144,6 +188,11 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
               )}
             </>
           )}
+        />
+        <Button
+          onClick={() => createCategoryModal.toggle()}
+          className="w-fit mb-[15px]"
+          text="Создать свою категорию"
         />
         <Controller
           name={"questions"}
@@ -261,6 +310,13 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
           className="fixed right-[20px] bottom-[20px] md:left-[10px] md:bottom-[10px]"
         />
       </form>
+      <CreateCategoryModal
+        show={createCategoryModal.isShown}
+        onClose={createCategoryModal.hide}
+        onCategoryCreate={(categoryName, categoryId) =>
+          setNewCategory({ name: categoryName, id: categoryId })
+        }
+      ></CreateCategoryModal>
     </div>
   );
 };

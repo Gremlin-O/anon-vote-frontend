@@ -27,7 +27,7 @@ const Search: FC<ISearchProps> = ({ onChangeValue, value, className }) => {
         <input
           value={value}
           type="text"
-          className="outline-none text-[25px] w-full"
+          className="outline-none text-[25px] flex-1"
           onChange={handleChange}
         />
       </div>
