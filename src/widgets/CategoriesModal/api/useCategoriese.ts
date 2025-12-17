@@ -59,27 +59,27 @@ export const useCategories = () => {
 
 	const { currentCategory, setCurrentCategory, selectedPath, setSelectedPath } = useCategoriesStore();
 
-	useEffect(() => {
-		const localCategoryStr = localStorage.getItem('currentCategory');
-		const currentCategory = localCategoryStr ? (JSON.parse(localCategoryStr) as IOption) : undefined;
+	// useEffect(() => {
+	// 	const localCategoryStr = localStorage.getItem('currentCategory');
+	// 	const currentCategory = localCategoryStr ? (JSON.parse(localCategoryStr) as IOption) : undefined;
 
-		const fetch = async () => {
-			if (!currentCategory) return;
-			try {
-				const { data: rootCategory } = await axiosInstance.get<IOption>(
-					`categories/buildPathTo/${currentCategory.id}`
-				);
-				console.log(rootCategory);
-			} catch (err) {}
-			// 1. update current category
-			// 2. ipdate categories
-			// 3. build path by rootCategory
-		};
+	// 	const fetch = async () => {
+	// 		if (!currentCategory) return;
+	// 		try {
+	// 			const { data: rootCategory } = await axiosInstance.get<IOption>(
+	// 				`/categories/buildPathTo/${currentCategory.id}`
+	// 			);
+	// 			console.log(rootCategory);
+	// 		} catch (err) {}
+	// 		// 1. update current category
+	// 		// 2. ipdate categories
+	// 		// 3. build path by rootCategory
+	// 	};
 
-		if (currentCategory) {
-			fetch();
-		}
-	}, []);
+	// 	if (currentCategory) {
+	// 		fetch();
+	// 	}
+	// }, []);
 
 	useEffect(() => {
 		loadCategories();

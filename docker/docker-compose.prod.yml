@@ -1,0 +1,13 @@
+name: "anon-vote-frontend"
+
+services:
+  next-app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.prod
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8080/api
+    restart: unless-stopped
