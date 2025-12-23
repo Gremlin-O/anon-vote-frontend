@@ -5,12 +5,15 @@ import DeleteSvg from "@/assets/images/close.svg";
 import { useModal } from "@/widgets/Modal/useModal";
 import CategoriesModal from "@/widgets/CategoriesModal/CategoriesModal";
 import Filter from "@/assets/images/Filter.svg";
+import Cross from "@/assets/images/close.svg";
 
 interface IPollTagsInputProps {
   tags: string[];
   search: string;
   inputChange: (tags: string[], search: string) => void;
   className?: string;
+  clearCategory: () => void;
+  isSelected: boolean;
 }
 
 const PollTagsInput: FC<IPollTagsInputProps> = ({
@@ -18,6 +21,8 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
   search,
   inputChange,
   className,
+  isSelected,
+  clearCategory,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const categoriesModal = useModal("categories-modal");
@@ -94,6 +99,15 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
           onClick={categoriesModal.toggle}
         />
       </div>
+      {isSelected && (
+        <div
+          onClick={() => clearCategory()}
+          className="hover:scale-[1.1] duration-100 w-[30px] h-[30px] rounded-[50%] border-medium flex justify-center items-center"
+        >
+          <img src={Cross.src} alt="" className="w-[20px] h-[20px]" />
+        </div>
+      )}
+
       <CategoriesModal
         show={categoriesModal.isShown}
         onClose={categoriesModal.hide}
