@@ -10,6 +10,7 @@ import { ThreeDot } from "react-loading-indicators";
 import PollTagsInput from "./PollTagsInput";
 import { sendAnswers } from "./api/sendAnswers";
 import { IPoll } from "./api/models";
+import { useAuthStore } from "@/store/authStore";
 
 const Polls = () => {
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
@@ -20,6 +21,7 @@ const Polls = () => {
     rootMargin: "100px",
   });
   const { currentCategory } = useCategoriesStore();
+  const { isAuthed } = useAuthStore();
   const [polls, setPolls] = useState<IPoll[]>([]);
 
   const [search, setSearch] = useState<string>("");
@@ -42,9 +44,13 @@ const Polls = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [search, tags, currentCategory, setPolls, page, setHasNextPage]);
+  }, [search, tags, currentCategory, setPolls, page, setHasNextPage, isAuthed]);
 
   const searchPollsDebounced = useDebounce(searchPollsFn, 300);
+  // useEffect(() => {
+  //   searchPollsFn();
+  //   console.log("r");
+  // }, [searchPollsFn]);
 
   useEffect(() => {
     if (isNearBottom) {
@@ -59,7 +65,7 @@ const Polls = () => {
     setPage(0);
     setPolls([]);
     setHasNextPage(true);
-  }, [search, tags, setPage, setHasNextPage]);
+  }, [search, tags, currentCategory, setPage, setHasNextPage, isAuthed]);
 
   useEffect(() => {
     if (hasNextPage) {
@@ -74,6 +80,16 @@ const Polls = () => {
 
   return (
     <>
+      {currentCategory ? (
+        <p className="text-primary -mt-[20px] mb-[10px] text-[20px] md:text-[16px]">
+          Поиск по категории: {currentCategory.name}
+        </p>
+      ) : (
+        <p className="text-primary -mt-[20px] mb-[10px] text-[20px] md:text-[16px]">
+          Категория не выбрана
+        </p>
+      )}
+
       <PollTagsInput
         tags={tags}
         search={search}

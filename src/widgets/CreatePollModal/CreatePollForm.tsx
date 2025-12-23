@@ -16,6 +16,7 @@ import axios, { AxiosError } from "axios";
 import { LoginModalId } from "../LoginModal/LoginModal";
 import { useModal } from "../Modal/useModal";
 import CreateCategoryModal from "./CreateCategoryModal/CreateCategoryModal";
+import clsx from "clsx";
 
 export interface IAnswer {
   text: string;
@@ -117,13 +118,13 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
         className="flex flex-col h-full min-h-0"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-[32px] mb-[40px] text-primary md:text-[28px]">
+        <h1 className="text-[32px] mb-[40px] text-primary md:text-[28px] md:mb-[20px]">
           Создайте свой опрос
         </h1>
         <input
           type="text"
           placeholder="Введите название опроса"
-          className="border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0  mb-[20px]"
+          className="border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0  mb-[20px] md:p-[5px] md:text-[16px] md:mb-[10px]"
           {...register("name", {
             required: "Название обязательно",
             minLength: {
@@ -290,7 +291,7 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
           )}
         />
         <div
-          className="ml-[10px] border-3 p-[5px] border-emerald-500 w-fit rounded-[50%] mt-[20px] bg-white cursor-pointer hover:scale-[1.1] duration-150"
+          className="ml-[10px] border-3 p-[5px] border-emerald-500 w-fit rounded-[50%] mt-[20px] bg-white cursor-pointer hover:scale-[1.1] duration-150 "
           onClick={() =>
             setValue(
               "questions",
@@ -301,9 +302,9 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
             )
           }
         >
-          <img src={Plus.src} alt="" className="w-[30px]" />
+          <img src={Plus.src} alt="" className="w-[30px] " />
         </div>
-
+        <div className="md:h-[100px] h-0"></div>
         <Button
           type="submit"
           text="Создать опрос"

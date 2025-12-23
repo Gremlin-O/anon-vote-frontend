@@ -19,7 +19,7 @@ const TagsInput: FC<ITagsInputProps> = ({ tags, tagsChange }) => {
   };
 
   return (
-    <div className="flex shrink-0 gap-[5px] border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 mb-[20px] items-center flex-wrap max-w-full overflow-x-auto">
+    <div className="flex shrink-0 gap-[5px] border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 mb-[20px] items-center flex-wrap max-w-full overflow-x-auto md:mb-[10px] md:p-[5px]">
       {tags.map((tag, tagInd) => {
         return (
           <div
@@ -33,7 +33,7 @@ const TagsInput: FC<ITagsInputProps> = ({ tags, tagsChange }) => {
       <input
         type="text"
         placeholder={tags.length === 0 ? "Введите тэги через пробел" : ""}
-        className="text-[16px] outline-0 flex-1 min-w-0 "
+        className="text-[16px] outline-0 flex-1 min-w-0"
         value={tagsInputValue}
         onChange={(e) => setTagsInputValue(e.currentTarget.value)}
         onBlur={() => {

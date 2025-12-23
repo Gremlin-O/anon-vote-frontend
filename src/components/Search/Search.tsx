@@ -23,11 +23,11 @@ const Search: FC<ISearchProps> = ({ onChangeValue, value, className }) => {
           className
         )}
       >
-        <img src={SearchImg.src} className="w-[35px]" />
+        <img src={SearchImg.src} className="w-[35px] md:w-[25px]" />
         <input
           value={value}
           type="text"
-          className="outline-none text-[25px] flex-1"
+          className="w-full outline-none text-[25px] flex-1 md:text-[16px] text-primary"
           onChange={handleChange}
         />
       </div>

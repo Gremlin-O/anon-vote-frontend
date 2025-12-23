@@ -35,6 +35,17 @@ const Navbar = () => {
   const isMobile = useMobile();
   return (
     <>
+      <div
+        className={clsx(
+          "w-[100vw] h-[100vh] absolute invisible left-0 top-0 bg-black z-20 opacity-0 duration-150",
+          {
+            "opacity-40 visible": !isCollapsed,
+          }
+        )}
+        onClick={() => {
+          setIsCollapsed(true);
+        }}
+      ></div>
       {isMobile && isCollapsed && (
         <img
           src={Menu.src}
@@ -45,7 +56,7 @@ const Navbar = () => {
 
       <div
         className={clsx(
-          "bg-light border-[#7b1258] fixed left-0 h-[100%] flex flex-col  items-center duration-200 z-20",
+          "z-10 bg-light border-[#7b1258] fixed left-0 h-[100%] flex flex-col  items-center duration-200 z-20",
           {
             "w-[80px] gap-[20px]  border-r-4": isCollapsed && !isMobile,
             "w-[180px]  gap-[20px]  border-r-4": !isCollapsed && !isMobile,
@@ -71,7 +82,10 @@ const Navbar = () => {
           src={Home.src}
           isCollapsed={isCollapsed}
           isMobile={isMobile}
-          onClick={() => linkHome()}
+          onClick={() => {
+            setIsCollapsed(true);
+            linkHome();
+          }}
           className="mt-[70px]"
         />
 
@@ -82,26 +96,34 @@ const Navbar = () => {
           isMobile={isMobile}
           onClick={() => {
             if (isAuthed) {
+              setIsCollapsed(true);
               openModal(CreatePollModalId);
             } else {
+              setIsCollapsed(true);
               openModal(LoginModalId);
             }
           }}
         />
-        <NavButton
+        {/* <NavButton
           text="Профиль"
           src={Profile.src}
           isCollapsed={isCollapsed}
           isMobile={isMobile}
-          onClick={() => openModal(CreatePollModalId)}
-        />
+          onClick={() => {
+            setIsCollapsed(true);
+            openModal(CreatePollModalId);
+          }}
+        /> */}
         {isAuthed ? (
           <NavButton
             text="Выйти"
             src={Exit.src}
             isCollapsed={isCollapsed}
             isMobile={isMobile}
-            onClick={() => logoutModal.toggle()}
+            onClick={() => {
+              setIsCollapsed(true);
+              logoutModal.toggle();
+            }}
           />
         ) : (
           <NavButton
@@ -109,7 +131,10 @@ const Navbar = () => {
             src={Enter.src}
             isCollapsed={isCollapsed}
             isMobile={isMobile}
-            onClick={() => openModal(LoginModalId)}
+            onClick={() => {
+              setIsCollapsed(true);
+              openModal(LoginModalId);
+            }}
           />
         )}
 

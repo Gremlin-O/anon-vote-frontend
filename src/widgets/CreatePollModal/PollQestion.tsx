@@ -45,7 +45,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
           onChange={(e) => changeQuestion(e.currentTarget.value)}
           type="text"
           placeholder="Введите вопрос"
-          className="border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 "
+          className="border-medium md:w-full bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 md:text-[18px] md:p-[5px]"
         />
         {!isMobile && (
           <div
@@ -72,7 +72,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
                 onChange={(e) => changeAnswer(e.currentTarget.value, answerInd)}
                 type="text"
                 placeholder="Введите ответ"
-                className="border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 flex-1"
+                className="border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 flex-1 md:text-[16px]"
               />
               {answers.length > 2 && (
                 <div

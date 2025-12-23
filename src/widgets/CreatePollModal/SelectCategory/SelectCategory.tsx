@@ -48,7 +48,7 @@ const SelectCategory: FC<SelectCategoryProps> = ({
 
   return (
     <div
-      className=" mb-[20px] w-full relative"
+      className=" mb-[20px] w-full relative md:mb-[10px]"
       onClick={(e) => e.stopPropagation()}
     >
       <input
@@ -61,7 +61,7 @@ const SelectCategory: FC<SelectCategoryProps> = ({
         type="text"
         placeholder="Введите категорию опроса"
         className={clsx(
-          "border-medium rounded-[5px] p-[8px] text-[16px] outline-0 w-full duration-100 bg-white text-primary",
+          "border-medium rounded-[5px] p-[8px] text-[16px] outline-0 w-full duration-100 bg-white text-primary md:p-[5px] md:text-[16px]",
           {
             "rounded-b-none": isOpen,
             "rounded-b-[5px]": !isOpen,
