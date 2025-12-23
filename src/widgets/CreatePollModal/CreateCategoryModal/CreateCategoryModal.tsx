@@ -70,6 +70,7 @@ const CreateCategoryModal: FC<ICreateCategoryProps> = ({
 
   const handleCancel = () => {
     setSelectedCategoryId(null);
+
     onClose();
   };
 

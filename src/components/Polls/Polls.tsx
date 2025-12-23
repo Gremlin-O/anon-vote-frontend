@@ -20,7 +20,8 @@ const Polls = () => {
     threshold: 0.1,
     rootMargin: "100px",
   });
-  const { currentCategory, setCurrentCategory } = useCategoriesStore();
+  const { currentCategory, setCurrentCategory, setSelectedPath } =
+    useCategoriesStore();
   const { isAuthed } = useAuthStore();
   const [polls, setPolls] = useState<IPoll[]>([]);
 
@@ -93,6 +94,7 @@ const Polls = () => {
       <PollTagsInput
         clearCategory={() => {
           setCurrentCategory(undefined);
+          setSelectedPath([0]);
         }}
         isSelected={currentCategory !== undefined}
         tags={tags}

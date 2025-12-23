@@ -5,12 +5,12 @@ interface ICategories {
   currentCategory?: IOption;
   selectedPath: number[];
   setCurrentCategory: (el?: IOption) => void;
-  setSelectedPath: (el: number[]) => void;
+  setSelectedPath: (el?: number[]) => void;
 }
 
 export const useCategoriesStore = create<ICategories>()((set) => ({
   currentCategory: undefined,
   selectedPath: [0],
   setCurrentCategory: (el?) => set(() => ({ currentCategory: el })),
-  setSelectedPath: (el) => set(() => ({ selectedPath: el })),
+  setSelectedPath: (el?) => set(() => ({ selectedPath: el })),
 }));

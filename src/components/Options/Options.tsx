@@ -1,11 +1,12 @@
 "use client";
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 // import Option from './OptionList';
 import OptionList from "./OptionList";
 import { IOption } from "@/widgets/CategoriesModal/api/useCategoriese";
 import { useMobile } from "@/shared/utils/useMobile";
 import Arrow from "@/assets/images/arrow.svg";
-import { div } from "motion/react-client";
+import { div, p } from "motion/react-client";
+import { useCategoriesStore } from "@/store/categoriesStore";
 
 interface IOptionsProps {
   options: IOption[];
@@ -25,13 +26,25 @@ interface IOptionsProps {
 const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
   const isMobile = useMobile();
   const selectOption = (level: IOption[], levelInd: number, ind: number) => {
-    console.log("level's children", level[ind].children?.length);
-    if (path.length - 1 > levelInd && path[levelInd + 1] === ind) {
+    // console.log("level's children", level[ind].children?.length);
+
+    const needToClose =
+      path.length - 1 > levelInd && path[levelInd + 1] === ind; // для пк
+    if (needToClose) {
       onChange(path.slice(0, levelInd + 1), false);
     } else {
-      onChange(path.slice(0, levelInd + 1).concat([ind]), true);
+      if (path.length > currentLevels.length) {
+        onChange(path.slice(0, levelInd).concat([ind]), true);
+      } else {
+        onChange(path.slice(0, levelInd + 1).concat([ind]), true);
+      }
     }
   };
+  const { selectedPath } = useCategoriesStore();
+
+  const [mobileSelectedItem, setMobileSelectedItem] = useState<number | null>(
+    null
+  );
 
   const getLevels = useCallback(() => {
     const levels: IOption[][] = [options];
@@ -49,9 +62,15 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
 
   const currentLevels = useMemo(() => getLevels(), [getLevels]);
 
-  console.log("options", options);
-
-  console.log(path);
+  useEffect(() => {
+    if (isMobile) {
+      if (path.length > currentLevels.length) {
+        setMobileSelectedItem(path[path.length - 1]);
+      } else {
+        setMobileSelectedItem(null);
+      }
+    }
+  }, [path, isMobile, currentLevels, setMobileSelectedItem]);
 
   const goBack = () => {
     if (path.length > 1) {
@@ -59,20 +78,52 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
     }
   };
 
+  console.log("selected path", selectedPath);
+  console.log("levels", currentLevels);
+
   return (
     <div className="flex flex-col overflow-hidden ">
       {isMobile && (
-        <div
-          className="flex cursor-pointer flex-start w-fit m-2 group"
-          onClick={goBack}
-        >
-          <img
-            src={Arrow.src}
-            alt=""
-            className="w-[20px] text-gray-400 rotate-180 group-hover:scale-[1.1] duration-100"
-          />
-          <p className="text-primary">Назад</p>
-        </div>
+        <>
+          <div className="flex">
+            {/* {selectedPath.slice(1).map((el, ind) => {
+              return (
+  
+              );
+            })} */}
+
+            <div>
+              {currentLevels
+                .slice(
+                  0,
+                  path.length > currentLevels.length
+                    ? currentLevels.length
+                    : currentLevels.length - 1
+                )
+                .map((level, i) => {
+                  return (
+                    <span
+                      className="p-2 border border-b-slate-100 rounded-md"
+                      key={level[selectedPath[i + 1]].id}
+                    >
+                      {level[selectedPath[i + 1]].name}
+                    </span>
+                  );
+                })}
+            </div>
+          </div>
+          <div
+            className="flex cursor-pointer flex-start w-fit m-2 group"
+            onClick={goBack}
+          >
+            <img
+              src={Arrow.src}
+              alt=""
+              className="w-[20px] text-gray-400 rotate-180 group-hover:scale-[1.1] duration-100"
+            />
+            <p className="text-primary">Назад</p>
+          </div>
+        </>
       )}
       <div className="flex gap-[10px] flex-col items-center mt-[30px] md:mt-0 md:min-h-0">
         {!isMobile &&
@@ -90,7 +141,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
 
         {isMobile && currentLevels.length > 0 && (
           <OptionList
-            selected={null}
+            selected={mobileSelectedItem}
             options={currentLevels[currentLevels.length - 1]}
             onClick={(ind) =>
               selectOption(

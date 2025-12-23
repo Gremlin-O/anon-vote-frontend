@@ -7,6 +7,7 @@ import { IOption, useCategories } from "./api/useCategoriese";
 import Button from "@/components/Button/Button";
 import { useCategoriesStore } from "@/store/categoriesStore";
 import { useMobile } from "@/shared/utils/useMobile";
+import path from "path";
 
 interface ICategoriesModalProps {
   show: boolean;
@@ -19,6 +20,7 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({
   children,
   onClose,
 }) => {
+  const isMobile = useMobile();
   const [searchValue, setSearchValue] = useState<string>("");
   const { categories: options, loadCategories } = useCategories();
 
@@ -82,7 +84,6 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({
         option = options[pathEl];
       }
     }
-    // console.log(option);
     if (option) {
       setCurrentCategory(option);
       if (isOpened) {
