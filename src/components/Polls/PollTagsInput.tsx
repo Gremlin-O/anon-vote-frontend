@@ -14,6 +14,12 @@ interface IPollTagsInputProps {
   className?: string;
   clearCategory: () => void;
   isSelected: boolean;
+  modal: {
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+    isShown: boolean;
+  };
 }
 
 const PollTagsInput: FC<IPollTagsInputProps> = ({
@@ -23,9 +29,10 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
   className,
   isSelected,
   clearCategory,
+  modal,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const categoriesModal = useModal("categories-modal");
+  const categoriesModal = modal;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     inputChange(tags, e.currentTarget.value);

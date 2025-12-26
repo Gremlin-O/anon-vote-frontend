@@ -11,8 +11,10 @@ import PollTagsInput from "./PollTagsInput";
 import { sendAnswers } from "./api/sendAnswers";
 import { IPoll } from "./api/models";
 import { useAuthStore } from "@/store/authStore";
+import { useModal } from "@/widgets/Modal/useModal";
 
 const Polls = () => {
+  const categoriesModal = useModal("categories-modal");
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
@@ -29,23 +31,36 @@ const Polls = () => {
   const [tags, setTags] = useState<string[]>([]);
 
   const searchPollsFn = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const pollsPage = await searchPolls(
-        search,
-        tags,
-        page,
-        currentCategory?.id
-      );
-      setTimeout(() => {
-        setPolls((prev) => [...prev, ...pollsPage.content]);
-        setHasNextPage(pollsPage.hasNextPage);
-      }, 100);
-    } catch (err) {
-    } finally {
-      setIsLoading(false);
+    if (categoriesModal.isShown === false) {
+      setIsLoading(true);
+      try {
+        const pollsPage = await searchPolls(
+          search,
+          tags,
+          page,
+          currentCategory?.id
+        );
+        setTimeout(() => {
+          setPolls((prev) => [...prev, ...pollsPage.content]);
+          setHasNextPage(pollsPage.hasNextPage);
+        }, 100);
+      } catch (err) {
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      return;
     }
-  }, [search, tags, currentCategory, setPolls, page, setHasNextPage, isAuthed]);
+  }, [
+    search,
+    tags,
+    currentCategory,
+    setPolls,
+    page,
+    setHasNextPage,
+    isAuthed,
+    categoriesModal.isShown,
+  ]);
 
   const searchPollsDebounced = useDebounce(searchPollsFn, 300);
   // useEffect(() => {
@@ -66,7 +81,15 @@ const Polls = () => {
     setPage(0);
     setPolls([]);
     setHasNextPage(true);
-  }, [search, tags, currentCategory, setPage, setHasNextPage, isAuthed]);
+  }, [
+    search,
+    tags,
+    currentCategory,
+    setPage,
+    setHasNextPage,
+    isAuthed,
+    categoriesModal.isShown,
+  ]);
 
   useEffect(() => {
     if (hasNextPage) {
@@ -103,6 +126,7 @@ const Polls = () => {
         inputChange={(tags, search) => {
           handleInputChange(tags, search);
         }}
+        modal={categoriesModal}
       />
       <div className=" rounded-[20px] box-border mt-[20px] flex flex-col max-h-full gap-[20px] overflow-auto flex-1 scrollbar-hide">
         {polls?.map((poll, pollInd) => {

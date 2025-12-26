@@ -5,7 +5,7 @@ import OptionList from "./OptionList";
 import { IOption } from "@/widgets/CategoriesModal/api/useCategoriese";
 import { useMobile } from "@/shared/utils/useMobile";
 import Arrow from "@/assets/images/arrow.svg";
-import { div, p } from "motion/react-client";
+import ArrowBetween from "@/assets/arrow.svg";
 import { useCategoriesStore } from "@/store/categoriesStore";
 
 interface IOptionsProps {
@@ -92,7 +92,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
               );
             })} */}
 
-            <div>
+            <div className="mt-[15px] mb-[10px] flex gap-[5px]">
               {currentLevels
                 .slice(
                   0,
@@ -102,12 +102,20 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
                 )
                 .map((level, i) => {
                   return (
-                    <span
-                      className="p-2 border border-b-slate-100 rounded-md"
+                    <div
                       key={level[selectedPath[i + 1]].id}
+                      className="flex gap-[5px] items-center"
                     >
-                      {level[selectedPath[i + 1]].name}
-                    </span>
+                      <span className="p-2 border-medium text-primary">
+                        {level[selectedPath[i + 1]].name}
+                      </span>
+                      {i < selectedPath.length - 2 && (
+                        <img
+                          src={ArrowBetween.src}
+                          className="w-[25px] h-[25px]"
+                        />
+                      )}
+                    </div>
                   );
                 })}
             </div>
