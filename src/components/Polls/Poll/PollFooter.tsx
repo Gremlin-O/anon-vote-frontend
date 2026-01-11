@@ -3,8 +3,11 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import statistics from '@/assets/images/statistics.svg';
 import sophisticatedStatistics from '@/assets/images/sophisticated-statistics.svg';
+import share from '@/assets/images/share.svg';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useModal } from '@/widgets/Modal/useModal';
+import SharingLinkModal from '@/widgets/SharingLinkModal/SharingLinkModal';
 
 interface IPollFooterProps {
 	onClick: () => void;
@@ -16,34 +19,45 @@ interface IPollFooterProps {
 
 const PollFooter: FC<IPollFooterProps> = ({ onClick, id, isDisabled, toggleStats, canToggleStats }) => {
 	const router = useRouter();
+	const sharingModal = useModal('sharing-modal');
 	return (
-		<div className='flex justify-between items-center mt-[20px] '>
-			<Button
-				onClick={() => onClick()}
-				text='Сохранить ответы'
-				className={clsx('w-fit text-primary', {
-					inactive: isDisabled,
-				})}
-			/>
-			<div className='flex gap-[15px]'>
-				{canToggleStats && (
+		<>
+			<div className='flex justify-between items-center mt-[20px] '>
+				<Button
+					onClick={() => onClick()}
+					text='Сохранить ответы'
+					className={clsx('w-fit text-primary', {
+						inactive: isDisabled,
+					})}
+				/>
+				<div className='flex gap-[15px]'>
+					{canToggleStats && (
+						<img
+							src={statistics.src}
+							alt=''
+							className='w-[50px] cursor-pointer duration-100 hover:scale-[1.1]'
+							onClick={() => toggleStats()}
+						/>
+					)}
+					{canToggleStats && (
+						<img
+							src={sophisticatedStatistics.src}
+							alt=''
+							className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1]'
+							onClick={() => router.push(`/sophisticated-stats/${id}`)}
+						/>
+					)}
 					<img
-						src={statistics.src}
-						alt=''
-						className='w-[50px] cursor-pointer duration-100 hover:scale-[1.1]'
-						onClick={() => toggleStats()}
-					/>
-				)}
-				{canToggleStats && (
-					<img
-						src={sophisticatedStatistics.src}
+						src={share.src}
 						alt=''
 						className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1]'
-						onClick={() => router.push(`/sophisticated-stats/${id}`)}
+						onClick={() => sharingModal.show()}
 					/>
-				)}
+				</div>
 			</div>
-		</div>
+
+			<SharingLinkModal show={sharingModal.isShown} onClose={() => sharingModal.hide()} pollId={id} />
+		</>
 	);
 };
 
