@@ -1,6 +1,6 @@
 import { axiosInstance } from '../../../../api';
 
-export interface getSophStatsResponse {
+export interface GetSophStatsResponse {
 	data: Array<{
 		date: string;
 		answers: Record<string, Record<string, number>>;
@@ -9,8 +9,8 @@ export interface getSophStatsResponse {
 export const getSophStats = async (
 	pollId: string,
 	daysBefore: number
-): Promise<getSophStatsResponse> => {
-	const { data } = await axiosInstance.get<getSophStatsResponse>(`/polls/${pollId}/dailyStat`, {
+): Promise<GetSophStatsResponse> => {
+	const { data } = await axiosInstance.get<GetSophStatsResponse>(`/polls/${pollId}/dailyStat`, {
 		params: {
 			daysBefore,
 		},
