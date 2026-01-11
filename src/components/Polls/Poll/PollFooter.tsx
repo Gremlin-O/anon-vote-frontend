@@ -39,7 +39,7 @@ const PollFooter: FC<IPollFooterProps> = ({ onClick, id, isDisabled, toggleStats
 						src={sophisticatedStatistics.src}
 						alt=''
 						className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1]'
-						onClick={() => router.push(`/sophisticatedStats/${id}`)}
+						onClick={() => router.push(`/sophisticated-stats/${id}`)}
 					/>
 				)}
 			</div>
