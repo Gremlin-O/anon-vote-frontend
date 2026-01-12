@@ -95,7 +95,7 @@ const Polls = () => {
 				className='flex gap-[10px] border-medium w-fit p-[10px] rounded-[20px] mb-[20px] cursor-pointer hover:scale-[1.02] duration-150 items-center'
 				onClick={() => window.open('https://t.me/anon_vote_ru_bot', '_blank')}
 			>
-				<h2 className='text-primary font-bold text-[20px] md:text-[20px]'>Телеграмм бот ресурса: </h2>
+				<h2 className='text-primary font-bold text-[20px] md:text-[20px]'>Наш телеграмм бот: </h2>
 				<img src={TelegramImg.src} alt='' className='w-[35px]' />
 			</div>
 			<PollTagsInput

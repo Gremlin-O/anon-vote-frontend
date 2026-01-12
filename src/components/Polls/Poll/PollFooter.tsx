@@ -26,16 +26,16 @@ const PollFooter: FC<IPollFooterProps> = ({ onClick, id, isDisabled, toggleStats
 				<Button
 					onClick={() => onClick()}
 					text='Сохранить ответы'
-					className={clsx('w-fit text-primary', {
+					className={clsx('w-fit text-primary md:p-[5px]', {
 						inactive: isDisabled,
 					})}
 				/>
-				<div className='flex gap-[15px]'>
+				<div className='flex gap-[15px] flex-wrap justify-center md:gap-[5px]'>
 					{canToggleStats && (
 						<img
 							src={statistics.src}
 							alt=''
-							className='w-[50px] cursor-pointer duration-100 hover:scale-[1.1]'
+							className='w-[50px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[40px]'
 							onClick={() => toggleStats()}
 						/>
 					)}
@@ -43,14 +43,14 @@ const PollFooter: FC<IPollFooterProps> = ({ onClick, id, isDisabled, toggleStats
 						<img
 							src={sophisticatedStatistics.src}
 							alt=''
-							className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1]'
+							className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[35px]'
 							onClick={() => router.push(`/sophisticated-stats/${id}`)}
 						/>
 					)}
 					<img
 						src={share.src}
 						alt=''
-						className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1]'
+						className='w-[40px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[35px]'
 						onClick={() => sharingModal.show()}
 					/>
 				</div>
