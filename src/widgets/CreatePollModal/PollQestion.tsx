@@ -55,7 +55,7 @@ const PollQestion: FC<IPollQuestionProps> = ({
 			{answers &&
 				answers.map((answer, answerInd) => {
 					return (
-						<div className='flex w-[60%] gap-[10px] items-center' key={answerInd}>
+						<div className='flex w-[60%] gap-[10px] items-center flex-wrap' key={answerInd}>
 							<input
 								value={answer.text}
 								onChange={(e) => changeAnswer(e.currentTarget.value, answerInd)}
