@@ -1,9 +1,10 @@
 import { IPollResponse } from '@/components/Polls/api/models';
 import { axiosInstance } from '../../../api';
 import CreatePollForm, { IPoll } from './CreatePollForm';
+import { AxiosResponse } from 'axios';
 
 export const createPoll = async (poll: IPoll, categoryName?: string, categoryId?: string) => {
-	return axiosInstance.post<IPoll, IPollResponse>(`/polls`, {
+	const { data } = await axiosInstance.post<IPollResponse, AxiosResponse<IPollResponse>>(`/polls`, {
 		title: poll.name,
 		questions: poll.questions.map((qst) => ({
 			text: qst.text,
@@ -13,4 +14,6 @@ export const createPoll = async (poll: IPoll, categoryName?: string, categoryId?
 		categoryName: categoryName,
 		tags: poll.tags,
 	});
+
+	return data;
 };

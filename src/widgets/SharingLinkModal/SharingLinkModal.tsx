@@ -9,16 +9,26 @@ interface SharingLinkModalProps {
 }
 
 const copyToClipboard = async (text: string) => {
-	if (navigator.clipboard && window.isSecureContext) {
-		try {
-			await navigator.clipboard.writeText(text);
+	// if (navigator.clipboard && window.isSecureContext) {
+	// 	try {
+	// 		await navigator.clipboard.writeText(text);
 
-			window.alert('Ссылка успешно скопирована');
-			return true;
-		} catch (e) {
-			window.alert('Ошибка при копировании');
-		}
-	}
+	// 		window.alert('Ссылка успешно скопирована');
+	// 		return true;
+	// 	} catch (e) {
+	// 		window.alert('Ошибка при копировании');
+	// 	}
+	// }
+	const input = document.createElement('input');
+
+	document.body.appendChild(input);
+	input.value = text;
+
+	input.select();
+	input.setSelectionRange(0, 99999); /* for mobail */
+	document.execCommand('copy');
+
+	document.body.removeChild(input);
 };
 
 const SharingLinkModal: FC<SharingLinkModalProps> = ({ show, onClose, pollId }) => {

@@ -70,9 +70,8 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({ onSubmit: onFormSubmit }
 		try {
 			const res = await createPoll(data, newCategory?.name, newCategory?.id);
 			setPollId(res.id);
-			console.log(res.id);
-			sharingModal.show();
-			onFormSubmit();
+			console.log('res', res);
+			// sharingModal.show();
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				if (err.status === 401) {
@@ -81,6 +80,11 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({ onSubmit: onFormSubmit }
 			}
 		}
 	};
+	useEffect(() => {
+		if (pollId) {
+			sharingModal.show();
+		}
+	}, [pollId, sharingModal]);
 	const [newCategory, setNewCategory] = useState<{
 		name: string;
 		id: string;
@@ -314,7 +318,10 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({ onSubmit: onFormSubmit }
 			{pollId && (
 				<SharingLinkModal
 					show={sharingModal.isShown}
-					onClose={() => sharingModal.hide()}
+					onClose={() => {
+						sharingModal.hide();
+						onFormSubmit();
+					}}
 					pollId={pollId}
 				/>
 			)}
