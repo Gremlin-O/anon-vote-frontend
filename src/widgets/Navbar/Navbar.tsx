@@ -21,6 +21,8 @@ import { useModalsStore } from "@/store/modalsStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import LogoutModal from "../LogoutModal/LogoutModal";
+import TelegramImg from "@/assets/images/telegram.svg";
+import Button from "@/components/Button/Button";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
@@ -40,7 +42,7 @@ const Navbar = () => {
           "w-[100vw] h-[100vh] absolute invisible left-0 top-0 bg-black z-20 opacity-0 duration-150",
           {
             "opacity-40 visible": !isCollapsed,
-          }
+          },
         )}
         onClick={() => {
           setIsCollapsed(true);
@@ -62,7 +64,7 @@ const Navbar = () => {
             "w-[180px]  gap-[20px]  border-r-4": !isCollapsed && !isMobile,
             "w-[120px]!  gap-[30px]!  border-r-4": isMobile && !isCollapsed,
             "w-[0px] border-0": isMobile && isCollapsed,
-          }
+          },
         )}
       >
         <img
@@ -73,7 +75,7 @@ const Navbar = () => {
               "rotate-[180deg] scale-100 scale-y-[90%] right-[10px]":
                 !isCollapsed,
               "left-[50%] translate-x-[-50%]": isCollapsed,
-            }
+            },
           )}
           onClick={() => setIsCollapsed(!isCollapsed)}
         />
@@ -137,6 +139,15 @@ const Navbar = () => {
             }}
           />
         )}
+        <NavButton
+          text="ТГ бот"
+          src={TelegramImg.src}
+          isCollapsed={isCollapsed}
+          isMobile={isMobile}
+          onClick={() => {
+            window.open(`https://t.me/anon_vote_ru_bot`, "_blank");
+          }}
+        />
 
         <LogoutModal
           show={logoutModal.isShown}

@@ -14,7 +14,7 @@ const Depth = 2;
 const fillCategoryById = (
   id: string,
   options: IOption[],
-  fillCategories: IOption[]
+  fillCategories: IOption[],
 ) => {
   const fn = (option: IOption): IOption | undefined => {
     if (option.id === id) {
@@ -32,15 +32,22 @@ const fillCategoryById = (
 
 export const useCategories = () => {
   const [categories, setCategories] = useState<IOption[]>();
-  const loadedNodes = useRef<Set<string>>(new Set());
+  const loadedNodes = useRef<Array<IOption>>([]);
 
   const loadCategories = useCallback(
     async (parentCategoryId?: string) => {
-      if (parentCategoryId && loadedNodes.current.has(parentCategoryId)) return;
+      if (
+        parentCategoryId &&
+        loadedNodes.current.some(
+          (cat) => cat.id == parentCategoryId && cat.children?.length,
+        )
+      ) {
+        return;
+      }
 
       try {
         const { data: newCategories } = await axiosInstance.get<IOption[]>(
-          `/categories/${parentCategoryId ?? ""}?depth=${Depth}`
+          `/categories/${parentCategoryId ?? ""}?depth=${Depth}`,
         );
         setCategories((prev) => {
           if (parentCategoryId && prev) {
@@ -51,40 +58,15 @@ export const useCategories = () => {
             return newCategories;
           }
         });
-        if (parentCategoryId) {
-          loadedNodes.current.add(parentCategoryId);
-        }
+        newCategories.forEach((cat) => {
+          loadedNodes.current.push(cat);
+        });
       } catch (err) {
         // console.log(err);
       }
     },
-    [setCategories]
+    [setCategories],
   );
-
-  // const { currentCategory, setCurrentCategory, selectedPath, setSelectedPath } =
-  //   useCategoriesStore();
-
-  // useEffect(() => {
-  // 	const localCategoryStr = localStorage.getItem('currentCategory');
-  // 	const currentCategory = localCategoryStr ? (JSON.parse(localCategoryStr) as IOption) : undefined;
-
-  // 	const fetch = async () => {
-  // 		if (!currentCategory) return;
-  // 		try {
-  // 			const { data: rootCategory } = await axiosInstance.get<IOption>(
-  // 				`/categories/buildPathTo/${currentCategory.id}`
-  // 			);
-  // 			console.log(rootCategory);
-  // 		} catch (err) {}
-  // 		// 1. update current category
-  // 		// 2. ipdate categories
-  // 		// 3. build path by rootCategory
-  // 	};
-
-  // 	if (currentCategory) {
-  // 		fetch();
-  // 	}
-  // }, []);
 
   useEffect(() => {
     loadCategories();

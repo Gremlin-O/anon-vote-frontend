@@ -92,7 +92,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
               );
             })} */}
 
-            <div className="mt-[15px] mb-[10px] flex gap-[5px]">
+            <div className="mt-[15px] mb-[10px] flex gap-[5px] flex-wrap">
               {currentLevels
                 .slice(
                   0,
