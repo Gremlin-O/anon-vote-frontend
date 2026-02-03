@@ -49,7 +49,7 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({
   const filteredPaths = useMemo(
     () =>
       filterOptions(typeof options === "undefined" ? [] : options, searchValue),
-    [searchValue]
+    [searchValue],
   );
 
   const { currentCategory, setCurrentCategory, selectedPath, setSelectedPath } =
@@ -91,9 +91,7 @@ const CategoriesModal: FC<ICategoriesModalProps> = ({
       }
     }
   };
-  useEffect(() => {
-    console.log("curr", currentCategory);
-  }, [currentCategory]);
+
   return (
     <div>
       <Modal show={show} onClose={onClose}>
