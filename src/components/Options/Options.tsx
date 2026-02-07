@@ -34,8 +34,13 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
       onChange(path.slice(0, levelInd + 1), false);
     } else {
       if (path.length > currentLevels.length) {
-        onChange(path.slice(0, levelInd).concat([ind]), true);
+        console.log("shrink");
+        onChange(
+          path.slice(0, isMobile ? levelInd : levelInd + 1).concat([ind]),
+          true,
+        );
       } else {
+        console.log("grow");
         onChange(path.slice(0, levelInd + 1).concat([ind]), true);
       }
     }
@@ -43,7 +48,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
   const { selectedPath } = useCategoriesStore();
 
   const [mobileSelectedItem, setMobileSelectedItem] = useState<number | null>(
-    null
+    null,
   );
 
   const getLevels = useCallback(() => {
@@ -98,7 +103,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
                   0,
                   path.length > currentLevels.length
                     ? currentLevels.length
-                    : currentLevels.length - 1
+                    : currentLevels.length - 1,
                 )
                 .map((level, i) => {
                   return (
@@ -155,7 +160,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
               selectOption(
                 currentLevels[currentLevels.length - 1],
                 path.length - 1,
-                ind
+                ind,
               )
             }
           />

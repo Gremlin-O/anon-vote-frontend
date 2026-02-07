@@ -19,8 +19,8 @@ const OptionList: FC<IOptionListProps> = ({ options, onClick, selected }) => {
   const isMobile = useMobile();
   const optionsRef = useRef<(HTMLDivElement | null)[]>(
     Array.from({ length: options.length }).fill(
-      null
-    ) as Array<HTMLDivElement | null>
+      null,
+    ) as Array<HTMLDivElement | null>,
   );
   const contRef = useRef<HTMLDivElement>(null);
   const handleTranslateClick = (direction: Directions) => {
@@ -67,7 +67,7 @@ const OptionList: FC<IOptionListProps> = ({ options, onClick, selected }) => {
 
       <div
         className={clsx(
-          " max-w-[90%] md:max-w-full flex-1 h-full  overflow-hidden "
+          " max-w-[90%] md:max-w-full flex-1 h-full  overflow-hidden ",
         )}
         ref={contRef}
       >
@@ -77,7 +77,7 @@ const OptionList: FC<IOptionListProps> = ({ options, onClick, selected }) => {
             {
               "flex-col overflow-y-auto overflow-x-hidden": isMobile,
               "flex-row": !isMobile,
-            }
+            },
           )}
           style={{ transform: `translateX(${offset}px)` }}
         >
@@ -90,11 +90,12 @@ const OptionList: FC<IOptionListProps> = ({ options, onClick, selected }) => {
                 key={el.id}
                 onClick={() => onClick(ind)}
                 className={clsx(
-                  "whitespace-nowrap border-[3px] text-primary md:whitespace-normal leading-[24px] cursor-pointer flex items-center justify-center text-center  font-semibold duration-200 text-[20px] p-[15px] select-none rounded-[10px] bg-white hover:border-amber-600 md:text-[16px] md:p-[10px]",
+                  "whitespace-nowrap border-[3px] text-primary md:whitespace-normal leading-[24px] cursor-pointer flex items-center justify-center text-center  font-semibold duration-100 text-[20px] p-[15px] select-none rounded-[10px] bg-white hover:border-amber-600 md:text-[16px] md:p-[10px]",
                   {
-                    "border-amber-600!": selected !== null && ind === selected,
+                    "border-amber-600! bg-secondary":
+                      selected !== null && ind === selected,
                     "border-bold": !(selected !== null && ind === selected),
-                  }
+                  },
                 )}
               >
                 {el.name}

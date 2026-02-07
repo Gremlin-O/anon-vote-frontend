@@ -30,7 +30,6 @@ const CreateCategoryModal: FC<ICreateCategoryProps> = ({
     null,
   );
 
-  // Создаем состояние для отслеживания загруженных узлов
   const [loadedNodes, setLoadedNodes] = useState<Set<string>>(new Set());
 
   const treeData = useMemo(() => {
@@ -44,17 +43,14 @@ const CreateCategoryModal: FC<ICreateCategoryProps> = ({
 
     return transformData(categories);
   }, [categories]);
-  // Функция для загрузки дочерних элементов при клике на стрелку
   const handleArrowClick = useCallback(
     async (nodeId: string, nodeData: any, event: React.MouseEvent) => {
       console.log(nodeId);
       event.stopPropagation();
 
-      // Если узел еще не загружен и нет детей в данных
       if (!loadedNodes.has(nodeId) && !nodeData.children?.length) {
         try {
           await loadCategories(nodeId);
-          // Помечаем узел как загруженный
           setLoadedNodes((prev) => new Set(prev).add(nodeId));
         } catch (error) {
           console.error("Ошибка загрузки категорий:", error);
@@ -86,13 +82,11 @@ const CreateCategoryModal: FC<ICreateCategoryProps> = ({
     onClose();
   };
 
-  // Компонент для рендера узла дерева
   const Node = ({ node, style, dragHandle }: any) => {
     const isSelected = selectedCategoryId === node.id;
     const hasBeenLoaded = loadedNodes.has(node.id);
     const hasChildrenInData = node.data.children?.length > 0;
 
-    // Определяем, является ли узел внутренним (имеет или может иметь детей)
     const isInternal = node.isInternal || !hasBeenLoaded;
 
     return (

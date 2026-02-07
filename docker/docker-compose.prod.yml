@@ -2,6 +2,7 @@ name: "anon-vote-frontend"
 
 services:
   next-app:
+    init: true
     build:
       context: ../
       dockerfile: ./docker/Dockerfile.prod

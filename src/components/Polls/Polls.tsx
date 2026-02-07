@@ -13,8 +13,11 @@ import { IPoll } from "./api/models";
 import { useAuthStore } from "@/store/authStore";
 import { useModal } from "@/widgets/Modal/useModal";
 import TelegramImg from "@/assets/images/telegram.svg";
+import { useModalsStore } from "@/store/modalsStore";
+import { CreatePollModalId } from "@/widgets/CreatePollModal/CreatePollModal";
 
 const Polls = () => {
+  const { openedModals } = useModalsStore();
   const categoriesModal = useModal("categories-modal");
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,6 +26,7 @@ const Polls = () => {
     threshold: 0.1,
     rootMargin: "100px",
   });
+
   const { currentCategory, setCurrentCategory, setSelectedPath } =
     useCategoriesStore();
   const { isAuthed } = useAuthStore();
@@ -42,7 +46,12 @@ const Polls = () => {
           currentCategory?.id,
         );
         setTimeout(() => {
-          setPolls((prev) => [...prev, ...pollsPage.content]);
+          setPolls((prev) => [
+            ...prev,
+            ...pollsPage.content.filter(
+              (poll) => !prev.some((prevPoll) => poll.id === prevPoll.id),
+            ),
+          ]);
           setHasNextPage(pollsPage.hasNextPage);
         }, 100);
       } catch (err) {
@@ -64,10 +73,6 @@ const Polls = () => {
   ]);
 
   const searchPollsDebounced = useDebounce(searchPollsFn, 300);
-  // useEffect(() => {
-  //   searchPollsFn();
-  //   console.log("r");
-  // }, [searchPollsFn]);
 
   useEffect(() => {
     if (isNearBottom) {
