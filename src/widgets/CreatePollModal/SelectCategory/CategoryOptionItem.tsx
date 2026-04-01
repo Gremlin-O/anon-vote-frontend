@@ -25,7 +25,7 @@ const CategoryOptionItem: FC<{
             </p>
           );
         })}
-        <p className="inline-block text-primary font-bold text-[18px]">
+        <p className="inline-block min-w-fit text-primary font-bold text-[18px]">
           {category.name}
         </p>
       </div>

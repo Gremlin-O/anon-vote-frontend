@@ -10,10 +10,10 @@ interface IPollHeaderProps {
 const PollHeader: FC<IPollHeaderProps> = ({ title, id, tags }) => {
   return (
     <div className="flex justify-between border-b border-[#7b1258] items-center md:inline-block">
-      <h1 className="font-semibold text-[40px] md:text-[25px] text-primary cursor-pointer">
+      <h1 className="font-semibold leading-11 mb-[10px] text-[40px] md:text-[25px] text-primary cursor-pointer">
         <Link href={`/poll/${id}`}>{title}</Link>
       </h1>
-      <div className="flex flex-wrap gap-[10px] md:gap-[5px] ">
+      <div className="flex flex-wrap gap-x-[10px] md:gap-[5px] ">
         {tags.map((tag) => {
           return (
             <p

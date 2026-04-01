@@ -11,7 +11,7 @@ export const mockData: IStat = {
       answerIdw: 196,
       answerId3: 100,
     },
-    "645e9481-7c98-48ad-88df-cd3bd1c5e261": {
+    "645e9481-7c98-48ad-88df-cd3bd1c5e261 ": {
       answerId: 515,
       answerIdw: 96,
       answerId3: 50,

@@ -1,24 +1,25 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend,
+  ChartData,
+  ChartOptions,
 } from "chart.js";
-import { IQuery } from "../Polls/api/models";
 import { Bar } from "react-chartjs-2";
-import { color } from "chart.js/helpers";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { useMobile } from "@/shared/utils/useMobile";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels,
 );
 
 interface IPollQuestionStat {
@@ -68,8 +69,105 @@ export const PollQuestionStat: FC<IPollQuestionStat> = ({
       },
     ],
   };
+  const values = labels.map((label) => data[label]);
+  const isMobile = useMobile();
+  const rowHeight = 50;
+  const rowGap = 20;
 
-  return (
+  return isMobile ? (
+    <div style={{ width: "100%", overflowX: "auto" }}>
+      <div
+        style={{
+          fontSize: 18,
+          fontWeight: 700,
+          color: "#7b1258",
+          marginBottom: 12,
+          lineHeight: 1.3,
+          wordBreak: "break-word",
+        }}
+      >
+        {questionText}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: rowGap }}>
+        {labels.map((label, idx) => {
+          const dataset: ChartData<"bar", number[], string> = {
+            labels: [""],
+            datasets: [
+              {
+                label: "",
+                data: [values[idx]],
+                borderColor: "#7b1258",
+                backgroundColor: "#bf6ca0",
+                borderRadius: 4,
+                barPercentage: 1,
+                categoryPercentage: 1,
+              },
+            ],
+          };
+
+          const options: ChartOptions<"bar"> = {
+            indexAxis: "x",
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: true },
+              datalabels: {
+                anchor: "end",
+                align: "end",
+                formatter: (value: number) => value,
+                color: "#7b1258",
+                font: { weight: "bold" },
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+                ticks: { display: false },
+                grid: { display: false },
+              },
+              y: { ticks: { display: false }, grid: { display: false } },
+            },
+          };
+
+          return (
+            <div
+              key={idx}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "minmax(160px, 280px) 1fr",
+                gap: 12,
+                alignItems: "center",
+                height: rowHeight,
+                minWidth: 400,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  lineHeight: 1.3,
+                  color: "#333",
+                  wordBreak: "break-word",
+                  overflowWrap: "anywhere",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {label}
+              </div>
+
+              <div style={{ height: rowHeight }}>
+                <Bar data={dataset} options={options} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  ) : (
     <div style={{ height: chartHeight }}>
       <Bar options={options} data={dataset} />
     </div>

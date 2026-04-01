@@ -7,30 +7,20 @@ import clsx from "clsx";
 import { useEffect } from "react";
 import { axiosInstance } from "../../api";
 import { useAuthStore } from "@/store/authStore";
+import { useFetchMe } from "./api/useFetchMe";
 
 export default function Home() {
   const isMobile = useMobile();
   const { openModal } = useModalsStore();
   const { setIsAuthed } = useAuthStore();
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        await axiosInstance.get("/auth/me");
-        setIsAuthed(true);
-      } catch (error) {
-        openModal(LoginModalId);
-        setIsAuthed(false);
-      }
-    };
-    fetchMe();
-  }, [openModal, setIsAuthed]);
+  useFetchMe();
   return (
     <div
       className={clsx(
         "mr-[10px] relative max-h-[100vh] flex flex-col ml-[150px] pt-[50px] bg-transparent xl:ml-[100px]",
         {
           "ml-[40px]!": isMobile,
-        }
+        },
       )}
     >
       <Polls></Polls>
