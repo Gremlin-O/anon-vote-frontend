@@ -1,37 +1,81 @@
-# Сервис анонимных опросов
+# Anon Vote — сервис анонимных опросов
 
-Anon-vote - это сервис для проведения анонимных опросов в любой сфере, позволяет быстро создавать опросы для социологических или маркетинговых исследований.
+**Anon Vote** — это полнофункциональный сервис для создания и проведения анонимных опросов в различных сферах: от социологических исследований до маркетинговой аналитики.  
+Позволяет быстро запускать опросы, собирать ответы и анализировать результаты, сохраняя приватность пользователей.
 
-**Ссылка:** http://anon-vote.ru
+---
 
-**Swagger Open API** http://anon-vote.ru:8081/swagger-ui/index.html
+## Демо
 
-**Backend:**  
-Java 21, Spring Boot 3, PostgreSQL 15, Redis 8
+- **Приложение:** http://anon-vote.ru  
+- **API документация (Swagger):** http://anon-vote.ru:8081/swagger-ui/index.html  
 
-**Frontend:**  
-Next.js 15.5, Tailwind, Zustand
+---
 
-**Infrastructure:**  
-Docker, Docker Compose
+## Основные возможности
 
-**Additional:**  
-Spring Data JPA, Spring MVC, Spring Security, Liquibase, Telegram Bot API, Angus Mail
+- 🧩 Создание опросов с гибкой структурой
+- 🔒 Полная анонимность респондентов
+- 📊 Сбор и обработка результатов
+- ⚡ Быстрая публикация и доступ по ссылке
+- 🤖 Интеграция с Telegram (бот)
+- 📬 Email-уведомления
 
-## Архитектура проекта
+---
 
-В проекте используется модульная кастомная архитектура
+## Технологический стек
 
-## Как запустить проект
+### Backend
+- **Java 21**
+- **Spring Boot 3**
+- **PostgreSQL 15**
+- **Redis 8**
 
-### 1. Запуск в dev режиме
+### Frontend
+- **Next.js 15**
+- **Tailwind CSS**
+- **Zustand**
 
-1. npm install
-2. npm run dev
+### Infrastructure
+- **Docker**
+- **Docker Compose**
 
-#### Шаги для запуска:
+### Additional
+- Spring Data JPA  
+- Spring MVC  
+- Spring Security  
+- Liquibase  
+- Telegram Bot API  
+- Angus Mail  
 
-### 1. Запуск в prod режиме
+---
 
+## Архитектура
+
+Проект построен на **модульной кастомной архитектуре**, что обеспечивает:
+
+- 📦 Чёткое разделение бизнес-логики
+- 🔄 Масштабируемость и расширяемость
+- 🧪 Удобство тестирования
+- 🧠 Простоту поддержки и развития
+
+---
+
+## Установка и запуск
+
+### Dev режим
+
+```bash
+# Установка зависимостей
+npm install
+
+# Запуск frontend приложения
+npm run dev
+```
+
+### Prod режим
+
+```bash
 docker compose -f ./docker/docker-compose.prod.yml up -d --build
 После этого проект будет доступен на http://localhost:3001
+```
