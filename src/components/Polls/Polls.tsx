@@ -145,6 +145,14 @@ const Polls = () => {
               category={poll.category}
               queries={poll.queries}
               backIsAnswered={poll.isAnswered}
+              votes={poll.votes}
+              onVotesChange={(votes) => {
+                setPolls((prev) =>
+                  prev.map((item) =>
+                    item.id === poll.id ? { ...item, votes } : item,
+                  ),
+                );
+              }}
             ></Poll>
           );
         })}

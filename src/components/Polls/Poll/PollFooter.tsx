@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useModal } from "@/widgets/Modal/useModal";
 import SharingLinkModal from "@/widgets/SharingLinkModal/SharingLinkModal";
 import telegram from "@/assets/images/telegram.svg";
+import PollVotes from "./PollVotes";
 
 interface IPollFooterProps {
   onClick: () => void;
@@ -16,6 +17,8 @@ interface IPollFooterProps {
   toggleStats: () => void;
   canToggleStats: boolean;
   id: string;
+  votes: number;
+  onVotesChange?: (votes: number) => void;
 }
 
 const PollFooter: FC<IPollFooterProps> = ({
@@ -24,19 +27,24 @@ const PollFooter: FC<IPollFooterProps> = ({
   isDisabled,
   toggleStats,
   canToggleStats,
+  votes,
+  onVotesChange,
 }) => {
   const router = useRouter();
   const sharingModal = useModal("sharing-modal");
   return (
     <>
       <div className="flex justify-between items-center mt-[20px] pt-3 border-t border-[#d4c4cf]">
-        <Button
-          onClick={() => onClick()}
-          text="Сохранить ответы"
-          className={clsx("btn-filled w-fit md:px-3 md:py-1.5", {
-            inactive: isDisabled,
-          })}
-        />
+        <div className="flex items-center gap-3 flex-wrap">
+          <PollVotes pollId={id} votes={votes} onVotesChange={onVotesChange} />
+          <Button
+            onClick={() => onClick()}
+            text="Сохранить ответы"
+            className={clsx("btn-filled w-fit md:px-3 md:py-1.5", {
+              inactive: isDisabled,
+            })}
+          />
+        </div>
         <div className="flex gap-[12px] flex-wrap justify-center md:gap-[8px]">
           {canToggleStats && (
             <img

@@ -28,5 +28,6 @@ export const pollMapper = {
     tags: poll.tags,
     category: mapCategory(poll),
     isAnswered: poll.answered,
+    votes: poll.votes ?? 0,
   }),
 };

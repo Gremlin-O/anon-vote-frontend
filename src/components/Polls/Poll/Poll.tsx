@@ -18,9 +18,11 @@ interface IPollProps {
 	queries: IQuery[];
 	className?: string;
 	backIsAnswered: boolean;
+	votes: number;
+	onVotesChange?: (votes: number) => void;
 }
 
-const Poll: FC<IPollProps> = ({ title, tags, category, queries, id, className, backIsAnswered }) => {
+const Poll: FC<IPollProps> = ({ title, tags, category, queries, id, className, backIsAnswered, votes, onVotesChange }) => {
 	const [showStats, setShowStats] = useState<boolean>(false);
 	const [statError, setStatError] = useState<string>();
 	const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -85,6 +87,8 @@ const Poll: FC<IPollProps> = ({ title, tags, category, queries, id, className, b
 				canToggleStats={shouldShowStats}
 				toggleStats={handleToggleStat}
 				id={id}
+				votes={votes}
+				onVotesChange={onVotesChange}
 			/>
 		</div>
 	);

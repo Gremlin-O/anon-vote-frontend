@@ -11,6 +11,7 @@ export interface IPoll {
   tags: string[];
   category?: IPollCategory;
   isAnswered: boolean;
+  votes: number;
 }
 export interface IQuery {
   id: string;
@@ -33,4 +34,5 @@ export interface IPollResponse {
   category?: IPollCategory;
   tags: string[];
   answered: boolean;
+  votes?: number;
 }

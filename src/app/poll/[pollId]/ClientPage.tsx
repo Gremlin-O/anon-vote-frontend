@@ -37,6 +37,10 @@ export const ClientPage = () => {
           category={poll.category}
           queries={poll.queries}
           backIsAnswered={poll.isAnswered}
+          votes={poll.votes}
+          onVotesChange={(votes) => {
+            setPoll((prev) => (prev ? { ...prev, votes } : prev));
+          }}
         ></Poll>
       ) : (
         <></>
