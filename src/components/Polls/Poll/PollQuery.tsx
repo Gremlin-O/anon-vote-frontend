@@ -19,33 +19,42 @@ const PollQuery: FC<IPollQueryProps> = ({
     <div
       key={query.id}
       className={clsx(
-        "border-medium rounded-[10px] p-[10px] bg-white relative",
-        {
-          inactive: isDisabled,
-        }
+        "rounded-xl p-4 bg-white border-2 border-[#b89aad] shadow-sm relative",
+        { inactive: isDisabled }
       )}
     >
-      <h1 className="text-[24px] sm:text-[18px] text-primary">{query.text}</h1>
-      {query.answers.map((answer, answerInd) => {
-        return (
-          <div
-            key={answer + answerInd}
-            className="group flex gap-[5px] items-center w-full cursor-pointer"
-            onClick={() => onClick(answer)}
-          >
+      <h1 className="text-[18px] sm:text-[16px] text-primary font-semibold mb-3">{query.text}</h1>
+      <div className="flex flex-col gap-1">
+        {query.answers.map((answer, answerInd) => {
+          const isSelected = selectedResponses[query.id] === answer;
+          return (
             <div
+              key={answer + answerInd}
               className={clsx(
-                "group-hover:bg-primary duration-150 w-[10px] h-[10px] rounded-[50%] border-2 text-primary",
+                "group flex gap-3 items-center w-full cursor-pointer rounded-lg px-3 py-2.5 transition-colors duration-150 border border-transparent",
                 {
-                  "bg-primary": selectedResponses[query.id] === answer,
-                  "bg-transparent": selectedResponses[query.id] !== answer,
+                  "bg-[#ffce78] border-[#e6b040]": isSelected,
+                  "hover:bg-[#f3eef2] hover:border-[#d4c4cf]": !isSelected,
                 }
               )}
-            ></div>
-            <p className="text-[20px] sm:text-[14px] text-primary">{answer}</p>
-          </div>
-        );
-      })}
+              onClick={() => onClick(answer)}
+            >
+              <div
+                className={clsx(
+                  "duration-150 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center shrink-0",
+                  {
+                    "border-[#7b1258] bg-[#7b1258]": isSelected,
+                    "border-[#b89aad] bg-white group-hover:border-[#7b1258]": !isSelected,
+                  }
+                )}
+              >
+                {isSelected && <div className="w-[6px] h-[6px] rounded-full bg-white" />}
+              </div>
+              <p className="text-[15px] sm:text-[14px] text-primary font-medium">{answer}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

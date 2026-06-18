@@ -19,15 +19,16 @@ const Search: FC<ISearchProps> = ({ onChangeValue, value, className }) => {
     <div>
       <div
         className={clsx(
-          "bg-white border-bold rounded-[10px] w-[90%] mx-auto p-[10px] cursor-pointer flex gap-[10px] 2xl:w-[80%] lg:ml-[20px] lg:mr-0",
+          "input-field rounded-xl w-[90%] mx-auto p-3 cursor-text flex gap-3 items-center shadow-sm 2xl:w-[80%] lg:ml-[20px] lg:mr-0",
           className
         )}
       >
-        <img src={SearchImg.src} className="w-[35px] md:w-[25px]" />
+        <img src={SearchImg.src} className="w-[22px] opacity-50 md:w-[20px]" />
         <input
           value={value}
           type="text"
-          className="w-full outline-none text-[25px] flex-1 md:text-[16px] text-primary"
+          placeholder="Поиск..."
+          className="w-full outline-none text-[16px] flex-1 md:text-[15px] text-primary placeholder:text-[#b89aad] bg-transparent"
           onChange={handleChange}
         />
       </div>

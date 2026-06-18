@@ -1,5 +1,6 @@
 import { axiosInstance } from "../../../../api";
 import { IPoll, IPollResponse } from "./models";
+import { enrichPollCategory } from "./fetchCategoryById";
 import { pollMapper } from "./pollMapper";
 
 interface ISearchPollResponseApi {
@@ -30,8 +31,15 @@ export const searchPolls = async (
       },
     }
   );
+  const polls = data.content.map(pollMapper.pollResponseToPoll);
+  const content = await Promise.all(
+    polls.map((poll, index) =>
+      enrichPollCategory(poll, data.content[index].categoryId),
+    ),
+  );
+
   return {
-    content: data.content.map(pollMapper.pollResponseToPoll),
+    content,
     hasNextPage: data.hasNextPage,
   };
 };

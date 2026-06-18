@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Minus from '@/assets/images/minus.svg';
 import Plus from '@/assets/images/plus.svg';
-import CreatePollForm, { IAnswer, IQuestion } from './CreatePollForm';
+import { IAnswer, IQuestion } from './CreatePollForm';
 import { useMobile } from '@/shared/utils/useMobile';
 
 interface IPollQuestionProps {
@@ -24,16 +24,12 @@ const PollQestion: FC<IPollQuestionProps> = ({
 	addAnswer,
 }) => {
 	const isMobile = useMobile();
-	console.log(answers);
 	return (
-		<div className='rounded-[10px] border-bold bg-white text-primary flex flex-col gap-[10px] p-[10px] md:p-[5px]'>
-			<div className='flex w-full gap-[20px] items-center md:flex-col md:items-start md:gap-[5px]'>
+		<div className='rounded-xl border-2 border-[#b89aad] bg-white text-primary flex flex-col gap-3 p-4 shadow-sm md:p-3'>
+			<div className='flex w-full gap-3 items-center md:flex-col md:items-start md:gap-2'>
 				{isMobile && (
-					<div
-						className='rounded-[50%] w-[30px] h-[30px] flex items-center justify-center border-3 cursor-pointer text-[40px] group hover:scale-[1.1] border-amber-500 duration-100'
-						onClick={() => removeQuestion()}
-					>
-						<img src={Minus.src} alt='' className='w-[20px] group-hover:scale-[1.1] duration-100' />
+					<div className='btn-icon-remove w-8 h-8' onClick={() => removeQuestion()}>
+						<img src={Minus.src} alt='' className='w-4' />
 					</div>
 				)}
 				<input
@@ -41,48 +37,33 @@ const PollQestion: FC<IPollQuestionProps> = ({
 					onChange={(e) => changeQuestion(e.currentTarget.value)}
 					type='text'
 					placeholder='Введите вопрос'
-					className='border-medium md:w-full bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 md:text-[18px] md:p-[5px]'
+					className='input-field-contrast md:w-full p-2.5 text-[16px] flex-1 md:text-[15px]'
 				/>
 				{!isMobile && (
-					<div
-						className='rounded-[50%] w-[40px] h-[40px] flex items-center justify-center border-3 cursor-pointer text-[40px] group hover:scale-[1.1] border-amber-500 duration-100'
-						onClick={() => removeQuestion()}
-					>
-						<img src={Minus.src} alt='' className='w-[20px] group-hover:scale-[1.1] duration-100' />
+					<div className='btn-icon-remove w-9 h-9' onClick={() => removeQuestion()}>
+						<img src={Minus.src} alt='' className='w-4' />
 					</div>
 				)}
 			</div>
 			{answers &&
-				answers.map((answer, answerInd) => {
-					return (
-						<div className='flex w-[60%] gap-[10px] items-center flex-wrap' key={answerInd}>
-							<input
-								value={answer.text}
-								onChange={(e) => changeAnswer(e.currentTarget.value, answerInd)}
-								type='text'
-								placeholder='Введите ответ'
-								className='border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 flex-1 md:text-[16px]'
-							/>
-							{answers.length > 2 && (
-								<div
-									className='rounded-[50%] w-[30px] h-[30px] flex items-center justify-center border-2 cursor-pointer text-[40px] group hover:scale-[1.1] border-amber-500 duration-100'
-									onClick={() => removeAnswer(answerInd)}
-								>
-									<img
-										src={Minus.src}
-										alt=''
-										className='w-[16px] group-hover:scale-[1.1] duration-100'
-									/>
-								</div>
-							)}
-						</div>
-					);
-				})}
-			<div
-				className='border-2 p-[5px] border-emerald-500 w-fit rounded-[50%] mt-[5px] bg-white cursor-pointer hover:scale-[1.1] duration-150'
-				onClick={() => addAnswer()}
-			>
-				<img src={Plus.src} alt='' className='w-[15px]' />
+				answers.map((answer, answerInd) => (
+					<div className='flex w-[60%] gap-2.5 items-center flex-wrap md:w-full' key={answerInd}>
+						<input
+							value={answer.text}
+							onChange={(e) => changeAnswer(e.currentTarget.value, answerInd)}
+							type='text'
+							placeholder='Введите ответ'
+							className='input-field-contrast p-2.5 text-[15px] flex-1'
+						/>
+						{answers.length > 2 && (
+							<div className='btn-icon-remove w-8 h-8' onClick={() => removeAnswer(answerInd)}>
+								<img src={Minus.src} alt='' className='w-3.5' />
+							</div>
+						)}
+					</div>
+				))}
+			<div className='btn-icon-add p-2 w-fit' onClick={() => addAnswer()}>
+				<img src={Plus.src} alt='' className='w-4' />
 			</div>
 		</div>
 	);

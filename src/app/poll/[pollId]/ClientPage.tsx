@@ -28,12 +28,13 @@ export const ClientPage = () => {
         " max-h-[100vh] flex flex-col ml-[150px] pt-[50px] bg-transparent xl:ml-[100px] md:ml-[40px]! md:mr-[10px]",
       )}
     >
-      <h1 className="text-primary text-[40px] mb-[20px] font-bold">Опрос</h1>
+      <h1 className="page-title mb-5">Опрос</h1>
       {poll !== undefined ? (
         <Poll
           id={poll?.id}
           title={poll?.title}
           tags={poll.tags}
+          category={poll.category}
           queries={poll.queries}
           backIsAnswered={poll.isAnswered}
         ></Poll>

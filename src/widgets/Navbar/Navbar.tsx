@@ -39,9 +39,9 @@ const Navbar = () => {
     <>
       <div
         className={clsx(
-          "w-[100vw] h-[100vh] absolute invisible left-0 top-0 bg-black z-20 opacity-0 duration-150",
+          "w-[100vw] h-[100vh] absolute invisible left-0 top-0 bg-black/50 backdrop-blur-[2px] z-20 opacity-0 duration-200",
           {
-            "opacity-40 visible": !isCollapsed,
+            "opacity-100 visible": !isCollapsed,
           },
         )}
         onClick={() => {
@@ -49,31 +49,32 @@ const Navbar = () => {
         }}
       ></div>
       {isMobile && isCollapsed && (
-        <img
-          src={Menu.src}
-          className="fixed top-0 left-0 w-[40px] cursor-pointer duration-100 hover:scale-[1.05]"
+        <button
+          type="button"
+          className="fixed top-3 left-3 w-[40px] h-[40px] cursor-pointer duration-200 hover:scale-105 flex items-center justify-center rounded-xl bg-white border border-[#ddd6db] shadow-card z-30"
           onClick={() => setIsCollapsed(false)}
-        ></img>
+        >
+          <img src={Menu.src} alt="" className="w-[22px]" />
+        </button>
       )}
 
       <div
         className={clsx(
-          "z-10 bg-light border-[#7b1258] fixed left-0 h-[100%] flex flex-col  items-center duration-200 z-20",
+          "z-10 glass-sidebar fixed left-0 h-[100%] flex flex-col items-center duration-300 z-20",
           {
-            "w-[80px] gap-[20px]  border-r-4": isCollapsed && !isMobile,
-            "w-[180px]  gap-[20px]  border-r-4": !isCollapsed && !isMobile,
-            "w-[120px]!  gap-[30px]!  border-r-4": isMobile && !isCollapsed,
-            "w-[0px] border-0": isMobile && isCollapsed,
+            "w-[80px] gap-[16px]": isCollapsed && !isMobile,
+            "w-[180px] gap-[16px]": !isCollapsed && !isMobile,
+            "w-[120px]! gap-[24px]!": isMobile && !isCollapsed,
+            "w-[0px] border-0 shadow-none": isMobile && isCollapsed,
           },
         )}
       >
         <img
           src={Arrow.src}
           className={clsx(
-            "absolute top-[10px] w-[40px] scale-75 scale-y-[70%] cursor-pointer duration-400",
+            "absolute top-[14px] w-[28px] opacity-40 cursor-pointer duration-300 hover:opacity-80",
             {
-              "rotate-[180deg] scale-100 scale-y-[90%] right-[10px]":
-                !isCollapsed,
+              "rotate-[180deg] right-[14px]": !isCollapsed,
               "left-[50%] translate-x-[-50%]": isCollapsed,
             },
           )}

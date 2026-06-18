@@ -20,7 +20,7 @@ const Button: FC<IButtonProps> = ({
     <button
       type={type}
       className={twMerge(
-        "text-[16px] text-center font-semibold border-medium text-primary bg-white p-[10px] cursor-pointer rounded-[20px] select-none duration-100 hover:border-zinc-500 ",
+        "btn-outline text-[15px] text-center px-4 py-2.5 cursor-pointer rounded-xl select-none duration-200 hover:shadow-sm active:scale-[0.98]",
         className
       )}
       onClick={(e) => onClick?.(e)}

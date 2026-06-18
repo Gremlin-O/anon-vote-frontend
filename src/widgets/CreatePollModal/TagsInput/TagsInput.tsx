@@ -19,35 +19,25 @@ const TagsInput: FC<ITagsInputProps> = ({ tags, tagsChange }) => {
   };
 
   return (
-    <div className="flex shrink-0 gap-[5px] border-medium bg-white text-primary rounded-[5px] p-[8px] text-[16px] outline-0 mb-[20px] items-center flex-wrap max-w-full overflow-x-auto md:mb-[10px] md:p-[5px]">
-      {tags.map((tag, tagInd) => {
-        return (
-          <div
-            key={tagInd}
-            className="text-primary p-[5	px] border-thin border-amber-500 rounded-[10px] bg-white"
-          >
-            {tag}
-          </div>
-        );
-      })}
+    <div className="flex shrink-0 gap-2 input-field-contrast p-2.5 text-[15px] mb-5 items-center flex-wrap max-w-full overflow-x-auto md:mb-3 md:p-2">
+      {tags.map((tag, tagInd) => (
+        <div key={tagInd} className="tag-pill p-1.5 px-2.5 text-[13px]">
+          {tag}
+        </div>
+      ))}
       <input
         type="text"
         placeholder={tags.length === 0 ? "Введите тэги через пробел" : ""}
-        className="text-[16px] outline-0 flex-1 min-w-0"
+        className="text-[16px] outline-0 flex-1 min-w-0 text-primary placeholder:text-[#8a6278]"
         value={tagsInputValue}
         onChange={(e) => setTagsInputValue(e.currentTarget.value)}
-        onBlur={() => {
-          buildTags();
-        }}
+        onBlur={() => buildTags()}
         onKeyDown={(e) => {
-          console.log(e);
           if (e.key === "Backspace" && tagsInputValue === "") {
             tagsChange(tags.slice(0, tags.length - 1));
           } else if (e.key === " " || e.key === "Enter") {
             const builtSomething = buildTags();
-            if (builtSomething) {
-              e.preventDefault();
-            }
+            if (builtSomething) e.preventDefault();
           }
         }}
       />

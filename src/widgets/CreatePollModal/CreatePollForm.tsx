@@ -121,13 +121,13 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
         className="flex flex-col h-full min-h-0 mb-[50px]"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-[32px] mb-[40px] text-primary md:text-[28px] md:mb-[20px]">
+        <h1 className="page-title mb-8 md:text-[24px] md:mb-5">
           Создайте свой опрос
         </h1>
         <input
           type="text"
           placeholder="Введите название опроса"
-          className="border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0  mb-[20px] md:p-[5px] md:text-[16px] md:mb-[10px]"
+          className="input-field-contrast p-3 text-[16px] mb-5 md:p-2.5 md:text-[15px] md:mb-3 w-full"
           {...register("name", {
             required: "Название обязательно",
             minLength: {
@@ -224,7 +224,7 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
           }}
           render={({ field, fieldState }) => (
             <>
-              <div className="flex flex-col gap-[20px] bg-secondary">
+              <div className="flex flex-col gap-4">
                 {field.value.map((question, questionInd) => {
                   return (
                     <PollQestion
@@ -302,7 +302,7 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
           )}
         />
         <div
-          className="ml-[10px] border-3 p-[5px] border-emerald-500 w-fit rounded-[50%] mt-[20px] bg-white cursor-pointer hover:scale-[1.1] duration-150 "
+          className="btn-icon-add ml-2.5 p-2.5 w-fit mt-5"
           onClick={() =>
             setValue(
               "questions",
@@ -333,7 +333,7 @@ const CreatePollForm: FC<{ onSubmit: () => void }> = ({
         <Button
           type="submit"
           text="Создать опрос"
-          className="fixed right-[20px] bottom-[20px] md:left-[10px] md:bottom-[10px]"
+          className="fixed right-5 bottom-5 md:left-3 md:bottom-3 btn-filled shadow-card-hover"
         />
       </form>
       <CreateCategoryModal

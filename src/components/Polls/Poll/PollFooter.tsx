@@ -29,20 +29,20 @@ const PollFooter: FC<IPollFooterProps> = ({
   const sharingModal = useModal("sharing-modal");
   return (
     <>
-      <div className="flex justify-between items-center mt-[20px] ">
+      <div className="flex justify-between items-center mt-[20px] pt-3 border-t border-[#d4c4cf]">
         <Button
           onClick={() => onClick()}
           text="Сохранить ответы"
-          className={clsx("w-fit text-primary md:p-[5px]", {
+          className={clsx("btn-filled w-fit md:px-3 md:py-1.5", {
             inactive: isDisabled,
           })}
         />
-        <div className="flex gap-[15px] flex-wrap justify-center md:gap-[5px]">
+        <div className="flex gap-[12px] flex-wrap justify-center md:gap-[8px]">
           {canToggleStats && (
             <img
               src={statistics.src}
               alt=""
-              className="w-[50px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[40px]"
+              className="w-[40px] cursor-pointer duration-200 hover:scale-110 md:w-[36px]"
               onClick={() => toggleStats()}
             />
           )}
@@ -50,20 +50,20 @@ const PollFooter: FC<IPollFooterProps> = ({
             <img
               src={sophisticatedStatistics.src}
               alt=""
-              className="w-[40px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[35px]"
+              className="w-[36px] cursor-pointer duration-200 hover:scale-110 md:w-[32px]"
               onClick={() => router.push(`/sophisticated-stats/${id}`)}
             />
           )}
           <img
             src={share.src}
             alt=""
-            className="w-[40px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[35px]"
+            className="w-[36px] cursor-pointer duration-200 hover:scale-110 md:w-[32px]"
             onClick={() => sharingModal.show()}
           />
           <img
             src={telegram.src}
             alt=""
-            className="w-[40px] cursor-pointer duration-100 hover:scale-[1.1] md:w-[35px]"
+            className="w-[36px] cursor-pointer duration-200 hover:scale-110 md:w-[32px]"
             onClick={() =>
               window.open(
                 `https://t.me/anon_vote_ru_bot?start=poll_${id}`,

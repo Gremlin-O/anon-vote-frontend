@@ -61,7 +61,7 @@ const SelectCategory: FC<SelectCategoryProps> = ({
         type="text"
         placeholder="Введите категорию опроса"
         className={clsx(
-          "border-medium rounded-[5px] p-[8px] text-[16px] outline-0 w-full duration-100 bg-white text-primary md:p-[5px] md:text-[16px]",
+          "input-field-contrast rounded-[10px] p-2.5 text-[15px] w-full duration-200 md:p-2",
           {
             "rounded-b-none": isOpen,
             "rounded-b-[5px]": !isOpen,
@@ -70,7 +70,7 @@ const SelectCategory: FC<SelectCategoryProps> = ({
         )}
       />
       {isOpen && (
-        <div className="absolute left-0 w-full flex flex-col max-h-[300px] scrollbar-hide  overflow-auto bg-white border-medium border-b-0! border-t-0! rounded-[5px] rounded-t-none border-t-0 rounded-b-[10px]">
+        <div className="absolute left-0 w-full flex flex-col max-h-[300px] scrollbar-hide overflow-auto bg-white border-2 border-[#7b1258] border-t-0 rounded-b-xl shadow-card">
           {currentCategories?.map((category, categoryInd) => {
             return (
               <CategoryOptionItem

@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/widgets/Navbar/Navbar";
 import GLobalModals from "@/widgets/GlobalModals/GLobalModals";
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Anon vote",
@@ -14,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="h-full">
+    <html lang="en" className={inter.className}>
+      <body className="h-full antialiased">
         <Navbar></Navbar>
         {children}
         <div id="modals"></div>

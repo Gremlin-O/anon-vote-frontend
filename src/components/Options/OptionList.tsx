@@ -90,11 +90,10 @@ const OptionList: FC<IOptionListProps> = ({ options, onClick, selected }) => {
                 key={el.id}
                 onClick={() => onClick(ind)}
                 className={clsx(
-                  "whitespace-nowrap border-[3px] text-primary md:whitespace-normal leading-[24px] cursor-pointer flex items-center justify-center text-center  font-semibold duration-100 text-[20px] p-[15px] select-none rounded-[10px] bg-white hover:border-amber-600 md:text-[16px] md:p-[10px]",
+                  "whitespace-nowrap text-primary md:whitespace-normal leading-snug cursor-pointer flex items-center justify-center text-center font-semibold duration-200 text-[15px] px-4 py-2.5 select-none rounded-xl bg-white border-2 border-[#b89aad] hover:border-[#7b1258] md:text-[14px] md:px-3 md:py-2",
                   {
-                    "border-amber-600! bg-secondary":
+                    "border-[#7b1258]! bg-[#ffce78]! shadow-sm":
                       selected !== null && ind === selected,
-                    "border-bold": !(selected !== null && ind === selected),
                   },
                 )}
               >

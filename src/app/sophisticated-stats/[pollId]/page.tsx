@@ -227,31 +227,27 @@ const SophisticatedStats = () => {
   if (!isReady || !stats || !poll) {
     return (
       <div className="max-h-[100vh] flex flex-col ml-[150px] pt-[50px] bg-transparent xl:ml-[100px] md:ml-[40px]! md:mr-[10px] md:leading-10">
-        <h1 className="text-primary text-[40px] mb-[20px] font-bold">
-          Расширенная статистика
-        </h1>
-        <div className="text-primary">Загрузка данных...</div>
+        <h1 className="page-title mb-5">Расширенная статистика</h1>
+        <div className="text-primary/60">Загрузка данных...</div>
       </div>
     );
   }
 
   return (
     <div className="max-h-[100vh] flex flex-col ml-[150px] pt-[50px] bg-transparent xl:ml-[100px] md:ml-[40px]! md:mr-[10px] md:leading-10">
-      <h1 className="text-primary text-[40px] mb-[20px] font-bold">
-        Расширенная статистика
-      </h1>
+      <h1 className="page-title mb-5">Расширенная статистика</h1>
       <div
-        className="flex gap-[10px] border-bolder w-fit p-[10px] rounded-[20px] mb-[20px] cursor-pointer hover:scale-[1.02] duration-150 items-center"
+        className="flex gap-3 card w-fit p-3 mb-5 cursor-pointer hover:shadow-card-hover duration-200 items-center rounded-xl"
         onClick={async () => {
           exportStats(params.pollId, 7).then(() => {
             downloadCSV(params.pollId, 7);
           });
         }}
       >
-        <h2 className="text-primary font-bold text-[28px] md:text-[20px]">
+        <h2 className="text-primary font-semibold text-[18px] md:text-[16px]">
           Скачать статистику
         </h2>
-        <img src={Download.src} alt="" className="w-[40px]" />
+        <img src={Download.src} alt="" className="w-[32px] opacity-70" />
       </div>
       <div className="space-y-[20px]">
         {poll.queries.map((qst) => {
@@ -267,9 +263,9 @@ const SophisticatedStats = () => {
           return (
             <div
               key={qst.id}
-              className="border-bolder rounded-[20px] p-[20px] w-[60%] bg-amber-50 xl:w-[100%] bg-secondary"
+              className="card rounded-2xl p-5 w-[60%] xl:w-[100%]"
             >
-              <h2 className="text-primary mb-[10px] text-[24px] md:text-[16px]">
+              <h2 className="text-primary mb-3 font-medium text-[18px] md:text-[15px]">
                 {qst.text}
               </h2>
               <div className="min-h-[140px] h-[300px] relative">

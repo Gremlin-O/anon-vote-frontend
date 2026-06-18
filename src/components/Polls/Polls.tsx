@@ -111,11 +111,11 @@ const Polls = () => {
   return (
     <>
       {currentCategory ? (
-        <p className="text-primary -mt-[20px] mb-[10px] text-[20px] md:text-[16px]">
-          Поиск по категории: {currentCategory.name}
+        <p className="section-label -mt-[20px] mb-[12px]">
+          Поиск по категории: <span className="text-primary font-semibold">{currentCategory.name}</span>
         </p>
       ) : (
-        <p className="text-primary -mt-[20px] mb-[10px] text-[20px] md:text-[16px]">
+        <p className="section-label -mt-[20px] mb-[12px]">
           Категория не выбрана
         </p>
       )}
@@ -134,7 +134,7 @@ const Polls = () => {
         }}
         modal={categoriesModal}
       />
-      <div className=" rounded-[20px] box-border mt-[20px] flex flex-col max-h-full gap-[20px] overflow-auto flex-1 scrollbar-hide">
+      <div className="rounded-2xl box-border mt-[20px] flex flex-col max-h-full gap-[16px] overflow-auto flex-1 scrollbar-hide">
         {polls?.map((poll, pollInd) => {
           return (
             <Poll
@@ -142,6 +142,7 @@ const Polls = () => {
               key={poll.id}
               title={poll.title}
               tags={poll.tags}
+              category={poll.category}
               queries={poll.queries}
               backIsAnswered={poll.isAnswered}
             ></Poll>

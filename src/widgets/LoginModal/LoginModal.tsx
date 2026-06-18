@@ -75,17 +75,15 @@ const LoginModal: FC<ILoginModalProps> = ({ show, onClose }) => {
       className="w-[30%] min-h-[60%] h-auto lg:w-[60%] "
       onClose={onClose}
     >
-      <div className="p-[20px] w-fit">
-        <h1 className="text-[32px] mb-[40px] text-primary md:text-[28px]">
-          Вход
-        </h1>
+      <div className="p-6 w-fit">
+        <h1 className="page-title mb-8 md:text-[24px] md:mb-6">Вход</h1>
 
         <input
           value={mail}
           onChange={(e) => setMail(e.currentTarget.value)}
           type="text"
           placeholder="Введите вашу почту"
-          className="min-w-[300px] border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 mb-[20px] md:w-full md:min-w-0"
+          className="input-field min-w-[300px] p-3 text-[16px] flex-1 mb-5 md:w-full md:min-w-0 w-full"
         />
         {emailError && (
           <div>
@@ -100,9 +98,7 @@ const LoginModal: FC<ILoginModalProps> = ({ show, onClose }) => {
             onChange={(e) => setCode(e.currentTarget.value)}
             type="text"
             placeholder="Введите код"
-            className={clsx(
-              "min-w-[300px] border-medium bg-white text-primary rounded-[5px] p-[10px] text-[20px] outline-0 flex-1 mb-[20px] md:w-full md:min-w-0"
-            )}
+            className="input-field min-w-[300px] p-3 text-[16px] flex-1 mb-5 md:w-full md:min-w-0 w-full"
           />
         )}
         {authUserError != "" && (
@@ -112,10 +108,10 @@ const LoginModal: FC<ILoginModalProps> = ({ show, onClose }) => {
             </p>
           </div>
         )}
-        <div className="flex gap-[20px]">
+        <div className="flex gap-4 items-center flex-wrap">
           <Button
             text={codeIsSent ? "Повторно выслать код" : "Выслать код"}
-            className={clsx("w-[70%] md:w-full mb-[20px]", {
+            className={clsx("btn-filled w-[70%] md:w-full mb-5", {
               inactive: timeLeftTillRefetch > 0,
             })}
             onClick={() => {
@@ -140,7 +136,7 @@ const LoginModal: FC<ILoginModalProps> = ({ show, onClose }) => {
         {codeIsSent && (
           <Button
             text="Проверить код"
-            className="w-[70%] md:w-full"
+            className="btn-filled w-[70%] md:w-full"
             onClick={() => {
               handleAuthClick();
             }}

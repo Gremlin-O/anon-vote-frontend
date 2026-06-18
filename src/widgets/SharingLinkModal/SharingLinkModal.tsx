@@ -122,7 +122,7 @@ const SharingLinkModal: FC<SharingLinkModalProps> = ({
               Ссылка на опрос:
             </p>
             <div
-              className="bg-gray-100 p-3 rounded-lg border border-gray-300 cursor-text select-all"
+              className="bg-[#f0e8ee] p-3 rounded-xl border border-[#b89aad] cursor-text select-all"
               onClick={(e) => {
                 e.stopPropagation();
                 // Выделяем весь текст при клике

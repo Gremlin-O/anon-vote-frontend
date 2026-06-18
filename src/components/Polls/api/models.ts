@@ -1,8 +1,15 @@
+export interface IPollCategory {
+  id: string;
+  name: string;
+  path?: string[];
+}
+
 export interface IPoll {
   title: string;
   queries: IQuery[];
   id: string;
   tags: string[];
+  category?: IPollCategory;
   isAnswered: boolean;
 }
 export interface IQuery {
@@ -21,6 +28,9 @@ export interface IPollResponse {
   title: string;
   questions: IQuestionResponse[];
   categoryId: string;
+  categoryName?: string;
+  categoryPath?: string[];
+  category?: IPollCategory;
   tags: string[];
   answered: boolean;
 }

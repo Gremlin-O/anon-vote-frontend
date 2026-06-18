@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/authStore';
 import clsx from 'clsx';
 import { FC, useState } from 'react';
 import { fetchBasicStats } from '../api/fetchStats';
-import { IQuery } from '../api/models';
+import { IQuery, IPollCategory } from '../api/models';
 import { sendAnswers } from '../api/sendAnswers';
 import PollContent from './PollContent';
 import PollFooter from './PollFooter';
@@ -14,16 +14,13 @@ interface IPollProps {
 	id: string;
 	title: string;
 	tags: string[];
+	category?: IPollCategory;
 	queries: IQuery[];
 	className?: string;
 	backIsAnswered: boolean;
 }
 
-// interface IPollAnswer extends IAnswer {
-// 	isChosen: boolean;
-// }
-
-const Poll: FC<IPollProps> = ({ title, tags, queries, id, className, backIsAnswered }) => {
+const Poll: FC<IPollProps> = ({ title, tags, category, queries, id, className, backIsAnswered }) => {
 	const [showStats, setShowStats] = useState<boolean>(false);
 	const [statError, setStatError] = useState<string>();
 	const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -60,13 +57,8 @@ const Poll: FC<IPollProps> = ({ title, tags, queries, id, className, backIsAnswe
 	};
 
 	return (
-		<div
-			className={clsx(
-				'border-bolder rounded-[20px] p-[20px] w-[60%] bg-amber-50 xl:w-[100%] bg-secondary',
-				className
-			)}
-		>
-			<PollHeader title={title} tags={tags} id={id} />
+		<div className={clsx('card rounded-2xl p-5 w-[60%] xl:w-[100%]', className)}>
+			<PollHeader title={title} tags={tags} category={category} id={id} />
 			<PollContent
 				showStats={showStats}
 				pollStat={pollStat}

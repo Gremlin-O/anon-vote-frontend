@@ -111,7 +111,7 @@ const Options: FC<IOptionsProps> = ({ options, path, onChange }) => {
                       key={level[selectedPath[i + 1]].id}
                       className="flex gap-[5px] items-center"
                     >
-                      <span className="p-2 border-medium text-primary">
+                      <span className="tag-pill px-3 py-1 text-[13px]">
                         {level[selectedPath[i + 1]].name}
                       </span>
                       {i < selectedPath.length - 2 && (

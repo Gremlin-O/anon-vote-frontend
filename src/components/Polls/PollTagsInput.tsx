@@ -1,8 +1,7 @@
 import clsx from "clsx";
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import SearchImg from "@/assets/images/search.svg";
 import DeleteSvg from "@/assets/images/close.svg";
-import { useModal } from "@/widgets/Modal/useModal";
 import CategoriesModal from "@/widgets/CategoriesModal/CategoriesModal";
 import Filter from "@/assets/images/Filter.svg";
 import Cross from "@/assets/images/close.svg";
@@ -51,32 +50,31 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
   return (
     <div
       className={clsx(
-        "bg-white border-bold rounded-[10px] w-[90%] p-[10px] cursor-pointer flex items-center gap-[10px]",
+        "input-field rounded-xl w-[90%] p-3 cursor-text flex items-center gap-3 shadow-sm",
         className
       )}
     >
-      <img src={SearchImg.src} className="w-[35px]" />
+      <img src={SearchImg.src} className="w-[22px] opacity-50 shrink-0" />
 
-      {tags.map((tag, tagInd) => {
-        return (
-          <div
-            key={tagInd}
-            className="text-primary p-[5px] border-thin flex gap-[5px] rounded-[10px] bg-white items-center"
-          >
-            <p className="p-0 m-0">{tag}</p>
-            <img
-              src={DeleteSvg.src}
-              alt=""
-              className="w-[20px] hover:scale-[1.2] duration-100"
-              onClick={() => handleDeleteTag(tagInd)}
-            />
-          </div>
-        );
-      })}
+      {tags.map((tag, tagInd) => (
+        <div
+          key={tagInd}
+          className="tag-pill p-1.5 px-2.5 flex gap-1.5 items-center shrink-0"
+        >
+          <p className="p-0 m-0 text-[13px]">{tag}</p>
+          <img
+            src={DeleteSvg.src}
+            alt=""
+            className="w-[14px] opacity-50 hover:opacity-100 hover:scale-110 duration-150"
+            onClick={() => handleDeleteTag(tagInd)}
+          />
+        </div>
+      ))}
       <input
         ref={inputRef}
         type="text"
-        className="text-[16px] outline-0 flex-1 min-w-0 "
+        placeholder="Поиск или #тег..."
+        className="text-[15px] outline-0 flex-1 min-w-0 bg-transparent placeholder:text-[#b89aad]"
         value={search}
         onChange={handleChange}
         onKeyDown={(e) => {
@@ -102,16 +100,16 @@ const PollTagsInput: FC<IPollTagsInputProps> = ({
         <img
           src={Filter.src}
           alt=""
-          className="w-[30px] h-[30px]"
+          className="w-[26px] h-[26px] opacity-60 hover:opacity-100 cursor-pointer duration-150 hover:scale-105"
           onClick={categoriesModal.toggle}
         />
       </div>
       {isSelected && (
         <div
           onClick={() => clearCategory()}
-          className="hover:scale-[1.1] duration-100 w-[30px] h-[30px] rounded-[50%] border-medium flex justify-center items-center"
+          className="hover:scale-105 duration-150 w-[28px] h-[28px] rounded-full border border-[#b89aad] flex justify-center items-center cursor-pointer hover:bg-[#f0e8ee]"
         >
-          <img src={Cross.src} alt="" className="w-[20px] h-[20px]" />
+          <img src={Cross.src} alt="" className="w-[14px] h-[14px] opacity-60" />
         </div>
       )}
 
